@@ -1,0 +1,438 @@
+{
+ "v": 1,
+ "generatedBy": "tools/make-fixtures.js",
+ "fixtures": {
+  "plain-modern-A": {
+   "source": {
+    "agentId": "a881270752ce573c6",
+    "runId": null,
+    "version": "2.1.286",
+    "lines": 19,
+    "isWf": false
+   },
+   "expect": {
+    "end": "finished",
+    "endReason": "tool-ends-turn",
+    "tokens": 39070,
+    "toolUses": 1,
+    "firstTs": 1790976517820,
+    "lastTs": 1790976536442,
+    "durationMs": 18622,
+    "modelId": "claude-haiku-4-5-20251001",
+    "modelLabel": "Haiku 4.5",
+    "resultPreview": "The user presented an instruction requesting tha",
+    "failure": null
+   },
+   "result": null
+  },
+  "plain-modern-B": {
+   "source": {
+    "agentId": "aeecace96f1a2e00b",
+    "runId": null,
+    "version": "2.1.286",
+    "lines": 32,
+    "isWf": false
+   },
+   "expect": {
+    "end": "finished",
+    "endReason": "tool-ends-turn",
+    "tokens": 42980,
+    "toolUses": 3,
+    "firstTs": 1790976517829,
+    "lastTs": 1790976546764,
+    "durationMs": 28935,
+    "modelId": "claude-haiku-4-5-20251001",
+    "modelLabel": "Haiku 4.5",
+    "resultPreview": "Testagent-Ergebnis: Versuch, drei PowerShell-Bef",
+    "failure": null
+   },
+   "result": null
+  },
+  "plain-modern-C": {
+   "source": {
+    "agentId": "a5dce7fe12e98feea",
+    "runId": null,
+    "version": "2.1.286",
+    "lines": 31,
+    "isWf": false
+   },
+   "expect": {
+    "end": "finished",
+    "endReason": "tool-ends-turn",
+    "tokens": 42983,
+    "toolUses": 4,
+    "firstTs": 1790976517838,
+    "lastTs": 1790976532146,
+    "durationMs": 14308,
+    "modelId": "claude-haiku-4-5-20251001",
+    "modelLabel": "Haiku 4.5",
+    "resultPreview": "fertig-C 200+",
+    "failure": null
+   },
+   "result": null
+  },
+  "plain-legacy-ack-1": {
+   "source": {
+    "agentId": "a4a5aaeef92fe6ca8",
+    "runId": null,
+    "version": "2.1.283",
+    "lines": 45,
+    "isWf": false
+   },
+   "expect": {
+    "end": "finished",
+    "endReason": "handback-then-ack",
+    "tokens": 77127,
+    "toolUses": 7,
+    "firstTs": 1790613499109,
+    "lastTs": 1790613717128,
+    "durationMs": 218019,
+    "modelId": "claude-opus-5-5",
+    "modelLabel": "Opus 5.5",
+    "resultPreview": "All 18 patches apply cleanly: each [old] occurs ",
+    "failure": null
+   },
+   "result": null
+  },
+  "plain-legacy-ack-2": {
+   "source": {
+    "agentId": "a646e40c46e69be92",
+    "runId": null,
+    "version": "2.1.283",
+    "lines": 31,
+    "isWf": false
+   },
+   "expect": {
+    "end": "finished",
+    "endReason": "handback-then-ack",
+    "tokens": 90886,
+    "toolUses": 4,
+    "firstTs": 1790542505618,
+    "lastTs": 1790542820585,
+    "durationMs": 314967,
+    "modelId": "claude-sonnet-5",
+    "modelLabel": "Sonnet 5",
+    "resultPreview": "Reviewed all three files in full (no edits made)",
+    "failure": null
+   },
+   "result": null
+  },
+  "plain-legacy-nudge-1": {
+   "source": {
+    "agentId": "acd8ca9cd6ba29bce",
+    "runId": null,
+    "version": "2.1.278",
+    "lines": 71,
+    "isWf": false
+   },
+   "expect": {
+    "end": "finished",
+    "endReason": "handback-then-ack",
+    "tokens": 61522,
+    "toolUses": 14,
+    "firstTs": 1789913095650,
+    "lastTs": 1789913200436,
+    "durationMs": 104786,
+    "modelId": "claude-haiku-4-5-20251001",
+    "modelLabel": "Haiku 4.5",
+    "resultPreview": "# Definitive Answer: Claude Code File-Access Con",
+    "failure": null
+   },
+   "result": null
+  },
+  "plain-legacy-nudge-2": {
+   "source": {
+    "agentId": "a4090f193676b02a6",
+    "runId": null,
+    "version": "2.1.278",
+    "lines": 56,
+    "isWf": false
+   },
+   "expect": {
+    "end": "finished",
+    "endReason": "handback-then-ack",
+    "tokens": 79095,
+    "toolUses": 12,
+    "firstTs": 1790098671070,
+    "lastTs": 1790098827189,
+    "durationMs": 156119,
+    "modelId": "claude-haiku-4-5-20251001",
+    "modelLabel": "Haiku 4.5",
+    "resultPreview": "# Claude Code: VS Code Extension vs. Desktop App",
+    "failure": null
+   },
+   "result": null
+  },
+  "wf-done-structured": {
+   "source": {
+    "agentId": "a286c2aae7c5e4f0f",
+    "runId": "wf_5281790c-ce8",
+    "version": "2.1.286",
+    "lines": 255,
+    "isWf": true
+   },
+   "expect": {
+    "end": "finished",
+    "endReason": "tool-ends-turn",
+    "tokens": 241626,
+    "toolUses": 61,
+    "firstTs": 1790976851862,
+    "lastTs": 1790978134706,
+    "durationMs": 1282844,
+    "modelId": "claude-sonnet-5-5",
+    "modelLabel": "Sonnet 5.5",
+    "resultPreview": null,
+    "failure": null
+   },
+   "result": {
+    "state": "done",
+    "tokens": 241626,
+    "toolCalls": 61,
+    "durationMs": 1282858,
+    "model": "claude-sonnet-5-5",
+    "cached": false
+   }
+  },
+  "wf-done-structured-2": {
+   "source": {
+    "agentId": "aceff00b64fb7eaed",
+    "runId": "wf_afd16ef8-1f1",
+    "version": "2.1.278",
+    "lines": 160,
+    "isWf": true
+   },
+   "expect": {
+    "end": "finished",
+    "endReason": "tool-ends-turn",
+    "tokens": 141628,
+    "toolUses": 38,
+    "firstTs": 1790086567878,
+    "lastTs": 1790086992622,
+    "durationMs": 424744,
+    "modelId": "claude-opus-5",
+    "modelLabel": "Opus 5",
+    "resultPreview": null,
+    "failure": null
+   },
+   "result": {
+    "state": "done",
+    "tokens": 141628,
+    "toolCalls": 38,
+    "durationMs": 424766,
+    "model": "claude-opus-5[1m]",
+    "cached": false
+   }
+  },
+  "wf-done-freetext": {
+   "source": {
+    "agentId": "a0ce9a0453614f202",
+    "runId": "wf_07a35b55-5c4",
+    "version": "2.1.280",
+    "lines": 168,
+    "isWf": true
+   },
+   "expect": {
+    "end": "finished",
+    "endReason": "end-turn-text",
+    "tokens": 146749,
+    "toolUses": 39,
+    "firstTs": 1790176347537,
+    "lastTs": 1790176912038,
+    "durationMs": 564501,
+    "modelId": "claude-opus-5-5",
+    "modelLabel": "Opus 5.5",
+    "resultPreview": "**Gegenprüfung der 7 Befunde (Blickwinke",
+    "failure": null
+   },
+   "result": {
+    "state": "done",
+    "tokens": 146749,
+    "toolCalls": 39,
+    "durationMs": 564521,
+    "model": "claude-opus-5-5[1m]",
+    "cached": false
+   }
+  },
+  "wf-failed-429": {
+   "source": {
+    "agentId": "aaf82589f3eca46c1",
+    "runId": "wf_b324854d-978",
+    "version": "2.1.283",
+    "lines": 148,
+    "isWf": true
+   },
+   "expect": {
+    "end": "failed",
+    "endReason": "api-error",
+    "tokens": 175392,
+    "toolUses": 38,
+    "firstTs": 1790725306086,
+    "lastTs": 1790725646497,
+    "durationMs": 340411,
+    "modelId": "claude-opus-5-5",
+    "modelLabel": "Opus 5.5",
+    "resultPreview": null,
+    "failure": {
+     "status": 429,
+     "error": "rate_limit",
+     "text": "You've hit your session limit · resets 4"
+    }
+   },
+   "result": null
+  },
+  "wf-failed-server": {
+   "source": {
+    "agentId": "ae09c7d756cec8675",
+    "runId": "wf_a3f9807b-ab1",
+    "version": "2.1.273",
+    "lines": 70,
+    "isWf": true
+   },
+   "expect": {
+    "end": "failed",
+    "endReason": "api-error",
+    "tokens": 135801,
+    "toolUses": 16,
+    "firstTs": 1789626482863,
+    "lastTs": 1789626989225,
+    "durationMs": 506362,
+    "modelId": "claude-opus-5",
+    "modelLabel": "Opus 5",
+    "resultPreview": null,
+    "failure": {
+     "status": null,
+     "error": "server_error",
+     "text": "API Error: Can't reach the API server — "
+    }
+   },
+   "result": {
+    "state": "error",
+    "tokens": 135809,
+    "toolCalls": 16,
+    "durationMs": 506368,
+    "model": "claude-opus-5[1m]",
+    "cached": false
+   }
+  },
+  "wf-killed-1": {
+   "source": {
+    "agentId": "aaf257023a9cb7ef7",
+    "runId": "wf_f558ff26-d2f",
+    "version": "2.1.286",
+    "lines": 93,
+    "isWf": true
+   },
+   "expect": {
+    "end": "interrupted",
+    "endReason": "user-interrupt",
+    "tokens": 109963,
+    "toolUses": 29,
+    "firstTs": 1790976668799,
+    "lastTs": 1790976732956,
+    "durationMs": 64157,
+    "modelId": "claude-sonnet-5-5",
+    "modelLabel": "Sonnet 5.5",
+    "resultPreview": null,
+    "failure": null
+   },
+   "result": {
+    "state": "progress",
+    "tokens": 109963,
+    "toolCalls": 29,
+    "durationMs": null,
+    "model": "claude-sonnet-5-5",
+    "cached": false
+   }
+  },
+  "wf-killed-2": {
+   "source": {
+    "agentId": "a20a599a639907d5d",
+    "runId": "wf_f558ff26-d2f",
+    "version": "2.1.286",
+    "lines": 97,
+    "isWf": true
+   },
+   "expect": {
+    "end": "interrupted",
+    "endReason": "user-interrupt",
+    "tokens": 130441,
+    "toolUses": 30,
+    "firstTs": 1790976670144,
+    "lastTs": 1790976732737,
+    "durationMs": 62593,
+    "modelId": "claude-sonnet-5-5",
+    "modelLabel": "Sonnet 5.5",
+    "resultPreview": null,
+    "failure": null
+   },
+   "result": {
+    "state": "progress",
+    "tokens": 130441,
+    "toolCalls": 30,
+    "durationMs": null,
+    "model": "claude-sonnet-5-5",
+    "cached": false
+   }
+  },
+  "wf-killed-3": {
+   "source": {
+    "agentId": "a68b90c71485c3e5b",
+    "runId": "wf_f558ff26-d2f",
+    "version": "2.1.286",
+    "lines": 94,
+    "isWf": true
+   },
+   "expect": {
+    "end": "interrupted",
+    "endReason": "user-interrupt",
+    "tokens": 123771,
+    "toolUses": 29,
+    "firstTs": 1790976670144,
+    "lastTs": 1790976732960,
+    "durationMs": 62816,
+    "modelId": "claude-sonnet-5-5",
+    "modelLabel": "Sonnet 5.5",
+    "resultPreview": null,
+    "failure": null
+   },
+   "result": {
+    "state": "progress",
+    "tokens": 123771,
+    "toolCalls": 29,
+    "durationMs": null,
+    "model": "claude-sonnet-5-5",
+    "cached": false
+   }
+  },
+  "wf-killed-4": {
+   "source": {
+    "agentId": "a45ad9239633d9a24",
+    "runId": "wf_f558ff26-d2f",
+    "version": "2.1.286",
+    "lines": 95,
+    "isWf": true
+   },
+   "expect": {
+    "end": "interrupted",
+    "endReason": "user-interrupt",
+    "tokens": 103937,
+    "toolUses": 30,
+    "firstTs": 1790976670144,
+    "lastTs": 1790976732737,
+    "durationMs": 62593,
+    "modelId": "claude-sonnet-5-5",
+    "modelLabel": "Sonnet 5.5",
+    "resultPreview": null,
+    "failure": null
+   },
+   "result": {
+    "state": "progress",
+    "tokens": 103937,
+    "toolCalls": 30,
+    "durationMs": null,
+    "model": "claude-sonnet-5-5",
+    "cached": false
+   }
+  }
+ }
+}

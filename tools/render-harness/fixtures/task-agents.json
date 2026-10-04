@@ -1,0 +1,128 @@
+{
+ "v": 1,
+ "now": 1791028800000,
+ "scope": "workspace",
+ "scopeLabel": "Arbeitsbereich: agent-view",
+ "claudeHome": "C:\\Users\\jansm\\.claude",
+ "running": [
+  {
+   "kind": "agent",
+   "key": "e5ce9d45:a0030f3c9d2",
+   "sessionId": "e5ce9d45-addc-4585-9608-4c76c0596a7b",
+   "sessionTitle": "coding-92",
+   "origin": "VS Code",
+   "agent": {
+    "id": "a0030f3c9d2",
+    "label": "Explore plugin API docs",
+    "phase": null,
+    "kind": "task",
+    "agentType": "Explore",
+    "shape": "background",
+    "model": {
+     "id": "claude-haiku-4-5-20251001",
+     "label": "Haiku 4.5"
+    },
+    "state": "running",
+    "quietSec": 2,
+    "tokens": 43000,
+    "toolUses": 4,
+    "startedAt": 1791028757000,
+    "endedAt": null,
+    "durationMs": null,
+    "attempt": 1,
+    "cached": false,
+    "loading": false,
+    "activity": {
+     "kind": "tool",
+     "tool": "Grep",
+     "target": "C:/Users/jansm/AppData/Local/Programs/Microsoft VS Code/resources/app/extensions",
+     "running": true
+    },
+    "failure": null,
+    "resultPreview": null,
+    "eta": {
+     "kind": "unknown",
+     "basis": "global",
+     "lo": null,
+     "mid": null,
+     "hi": null,
+     "text": "unbekannt",
+     "tip": "nur Erfahrungswert: 2-9 Min. (n = 595 Agenten aus 55 Läufen)"
+    }
+   }
+  },
+  {
+   "kind": "agent",
+   "key": "e5ce9d45:a0031f3c9d2",
+   "sessionId": "e5ce9d45-addc-4585-9608-4c76c0596a7b",
+   "sessionTitle": "coding-92",
+   "origin": "VS Code",
+   "agent": {
+    "id": "a0031f3c9d2",
+    "label": "Review diff for regressions",
+    "phase": null,
+    "kind": "task",
+    "agentType": "general-purpose",
+    "shape": "foreground",
+    "model": {
+     "id": "claude-sonnet-5-5",
+     "label": "Sonnet 5.5"
+    },
+    "state": "waiting",
+    "quietSec": 31,
+    "tokens": 88200,
+    "toolUses": 17,
+    "startedAt": 1791028560000,
+    "endedAt": null,
+    "durationMs": null,
+    "attempt": 1,
+    "cached": false,
+    "loading": false,
+    "activity": {
+     "kind": "waiting",
+     "running": false
+    },
+    "failure": null,
+    "resultPreview": null,
+    "eta": null
+   }
+  }
+ ],
+ "recent": [
+  {
+   "kind": "agent",
+   "key": "e5ce9d45:a0032f3c9d2",
+   "sessionId": "e5ce9d45-addc-4585-9608-4c76c0596a7b",
+   "sessionTitle": "coding-92",
+   "origin": "VS Code",
+   "agent": {
+    "id": "a0032f3c9d2",
+    "label": "Summarise failing tests",
+    "phase": null,
+    "kind": "task",
+    "agentType": "general-purpose",
+    "shape": "background",
+    "model": {
+     "id": "claude-haiku-4-5-20251001",
+     "label": "Haiku 4.5"
+    },
+    "state": "done",
+    "quietSec": 0,
+    "tokens": 39070,
+    "toolUses": 1,
+    "startedAt": 1791028601378,
+    "endedAt": 1791028620000,
+    "durationMs": 18622,
+    "attempt": 1,
+    "cached": false,
+    "loading": false,
+    "activity": null,
+    "failure": null,
+    "resultPreview": "Three tests fail in test/sessionModel.test.js: retry slot, orphan result, torn journal line. All three come from one off-by-one in the slot counter.",
+    "eta": null
+   }
+  }
+ ],
+ "warnings": [],
+ "formatNote": null
+}

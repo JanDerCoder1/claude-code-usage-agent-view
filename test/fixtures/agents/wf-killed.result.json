@@ -1,0 +1,102 @@
+{
+ "runId": "wf_f558ff26-d2f",
+ "timestamp": "2026-10-02T21:32:12.735Z",
+ "durationMs": 64037,
+ "status": "killed",
+ "workflowName": "agent-rail-research",
+ "startTime": 1790976668662,
+ "defaultModel": "claude-sonnet-5-5",
+ "agentCount": 4,
+ "totalTokens": 468112,
+ "totalToolCalls": 118,
+ "phases": [
+  {
+   "title": "Research",
+   "detail": null
+  },
+  {
+   "title": "Critic",
+   "detail": null
+  }
+ ],
+ "workflowProgress": [
+  {
+   "type": "workflow_phase",
+   "index": 1,
+   "title": "Research"
+  },
+  {
+   "type": "workflow_phase",
+   "index": 2,
+   "title": "Critic"
+  },
+  {
+   "type": "workflow_agent",
+   "index": 1,
+   "label": "research:usage",
+   "phaseIndex": 1,
+   "phaseTitle": "Research",
+   "agentId": "aaf257023a9cb7ef7",
+   "model": "claude-sonnet-5-5",
+   "state": "progress",
+   "startedAt": 1790976668792,
+   "queuedAt": 1790976668760,
+   "attempt": 1,
+   "lastToolName": "Grep",
+   "lastProgressAt": 1790976732646,
+   "tokens": 109963,
+   "toolCalls": 29
+  },
+  {
+   "type": "workflow_agent",
+   "index": 2,
+   "label": "research:lifecycle",
+   "phaseIndex": 1,
+   "phaseTitle": "Research",
+   "agentId": "a20a599a639907d5d",
+   "model": "claude-sonnet-5-5",
+   "state": "progress",
+   "startedAt": 1790976668795,
+   "queuedAt": 1790976668760,
+   "attempt": 1,
+   "lastToolName": "Grep",
+   "lastProgressAt": 1790976731199,
+   "tokens": 130441,
+   "toolCalls": 30
+  },
+  {
+   "type": "workflow_agent",
+   "index": 3,
+   "label": "research:pane",
+   "phaseIndex": 1,
+   "phaseTitle": "Research",
+   "agentId": "a68b90c71485c3e5b",
+   "model": "claude-sonnet-5-5",
+   "state": "progress",
+   "startedAt": 1790976668797,
+   "queuedAt": 1790976668760,
+   "attempt": 1,
+   "lastToolName": "Read",
+   "lastProgressAt": 1790976732660,
+   "tokens": 123771,
+   "toolCalls": 29
+  },
+  {
+   "type": "workflow_agent",
+   "index": 4,
+   "label": "research:state",
+   "phaseIndex": 1,
+   "phaseTitle": "Research",
+   "agentId": "a45ad9239633d9a24",
+   "model": "claude-sonnet-5-5",
+   "state": "progress",
+   "startedAt": 1790976668798,
+   "queuedAt": 1790976668760,
+   "attempt": 1,
+   "lastToolName": "Grep",
+   "lastProgressAt": 1790976729362,
+   "tokens": 103937,
+   "toolCalls": 30
+  }
+ ]
+}

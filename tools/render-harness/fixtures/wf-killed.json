@@ -1,0 +1,157 @@
+{
+ "v": 1,
+ "now": 1791028800000,
+ "scope": "workspace",
+ "scopeLabel": "Arbeitsbereich: agent-view",
+ "claudeHome": "C:\\Users\\jansm\\.claude",
+ "running": [],
+ "recent": [
+  {
+   "kind": "workflow",
+   "key": "e5ce9d45:wf_f558ff26-d2f",
+   "runId": "wf_f558ff26-d2f",
+   "sessionId": "e5ce9d45-addc-4585-9608-4c76c0596a7b",
+   "sessionTitle": "coding-92",
+   "origin": "VS Code",
+   "name": "agent-rail-research",
+   "description": "Parallel research of the plugin API facts needed for a live agent-cards pane (elapsed, tokens, ETA).",
+   "status": "killed",
+   "startedAt": 1791028730000,
+   "endedAt": 1791028794000,
+   "durationMs": 64037,
+   "agentsTotal": 4,
+   "agentsDone": 0,
+   "agentsFailed": 0,
+   "tokens": 468112,
+   "toolUses": 118,
+   "phases": [
+    {
+     "title": "Research",
+     "detail": null,
+     "state": "partial",
+     "done": 0,
+     "failed": 4,
+     "total": 4,
+     "agents": [
+      {
+       "id": "a0026f3c9d2",
+       "label": "research:usage",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "interrupted",
+       "quietSec": 0,
+       "tokens": 109963,
+       "toolUses": 29,
+       "startedAt": 1791028730000,
+       "endedAt": 1791028794000,
+       "durationMs": 64000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0027f3c9d2",
+       "label": "research:lifecycle",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "interrupted",
+       "quietSec": 0,
+       "tokens": 130441,
+       "toolUses": 30,
+       "startedAt": 1791028730000,
+       "endedAt": 1791028794000,
+       "durationMs": 64000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0028f3c9d2",
+       "label": "research:pane",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "interrupted",
+       "quietSec": 0,
+       "tokens": 123771,
+       "toolUses": 29,
+       "startedAt": 1791028730000,
+       "endedAt": 1791028794000,
+       "durationMs": 64000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0029f3c9d2",
+       "label": "research:state",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "interrupted",
+       "quietSec": 0,
+       "tokens": 103937,
+       "toolUses": 30,
+       "startedAt": 1791028730000,
+       "endedAt": 1791028794000,
+       "durationMs": 64000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      }
+     ]
+    },
+    {
+     "title": "Critic",
+     "detail": null,
+     "state": "pending",
+     "done": 0,
+     "failed": 0,
+     "total": 0,
+     "agents": []
+    }
+   ],
+   "eta": null
+  }
+ ],
+ "warnings": [],
+ "formatNote": null
+}

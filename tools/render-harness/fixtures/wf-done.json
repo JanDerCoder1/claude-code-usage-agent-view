@@ -1,0 +1,418 @@
+{
+ "v": 1,
+ "now": 1791028800000,
+ "scope": "workspace",
+ "scopeLabel": "Arbeitsbereich: agent-view",
+ "claudeHome": "C:\\Users\\jansm\\.claude",
+ "running": [],
+ "recent": [
+  {
+   "kind": "workflow",
+   "key": "e5ce9d45:wf_afd16ef8-1f1",
+   "runId": "wf_afd16ef8-1f1",
+   "sessionId": "e5ce9d45-addc-4585-9608-4c76c0596a7b",
+   "sessionTitle": "coding-92",
+   "origin": "VS Code",
+   "name": "agent-rail-research",
+   "description": "Parallel research of the plugin API facts needed for a live agent-cards pane.",
+   "status": "completed",
+   "startedAt": 1791027300000,
+   "endedAt": 1791028560000,
+   "durationMs": 1273000,
+   "agentsTotal": 7,
+   "agentsDone": 7,
+   "agentsFailed": 0,
+   "tokens": 1201800,
+   "toolUses": 296,
+   "phases": [
+    {
+     "title": "Research",
+     "detail": null,
+     "state": "done",
+     "done": 4,
+     "failed": 0,
+     "total": 4,
+     "agents": [
+      {
+       "id": "a0015f3c9d2",
+       "label": "research:usage",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 241600,
+       "toolUses": 61,
+       "startedAt": 1791027538000,
+       "endedAt": 1791028020000,
+       "durationMs": 482000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": "Usage figures confirmed.",
+       "eta": null
+      },
+      {
+       "id": "a0016f3c9d2",
+       "label": "research:lifecycle",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 233900,
+       "toolUses": 58,
+       "startedAt": 1791027560000,
+       "endedAt": 1791028020000,
+       "durationMs": 460000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0017f3c9d2",
+       "label": "research:pane",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 250200,
+       "toolUses": 66,
+       "startedAt": 1791027528000,
+       "endedAt": 1791028080000,
+       "durationMs": 552000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0018f3c9d2",
+       "label": "research:state",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 228000,
+       "toolUses": 52,
+       "startedAt": 1791027549000,
+       "endedAt": 1791027960000,
+       "durationMs": 411000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      }
+     ]
+    },
+    {
+     "title": "Spec",
+     "detail": null,
+     "state": "done",
+     "done": 1,
+     "failed": 0,
+     "total": 1,
+     "agents": [
+      {
+       "id": "a0019f3c9d2",
+       "label": "spec:write",
+       "phase": "Spec",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-opus-5[1m]",
+        "label": "Opus 5 (1M)"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 118000,
+       "toolUses": 33,
+       "startedAt": 1791028130000,
+       "endedAt": 1791028440000,
+       "durationMs": 310000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      }
+     ]
+    },
+    {
+     "title": "Critic",
+     "detail": null,
+     "state": "done",
+     "done": 2,
+     "failed": 0,
+     "total": 2,
+     "agents": [
+      {
+       "id": "a0020f3c9d2",
+       "label": "critic:a",
+       "phase": "Critic",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-haiku-4-5-20251001",
+        "label": "Haiku 4.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 64000,
+       "toolUses": 12,
+       "startedAt": 1791028380000,
+       "endedAt": 1791028500000,
+       "durationMs": 120000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0021f3c9d2",
+       "label": "critic:b",
+       "phase": "Critic",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-haiku-4-5-20251001",
+        "label": "Haiku 4.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 66100,
+       "toolUses": 14,
+       "startedAt": 1791028366000,
+       "endedAt": 1791028500000,
+       "durationMs": 134000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      }
+     ]
+    }
+   ],
+   "eta": null
+  },
+  {
+   "kind": "workflow",
+   "key": "e5ce9d45:wf_18d7ece8-683",
+   "runId": "wf_18d7ece8-683",
+   "sessionId": "e5ce9d45-addc-4585-9608-4c76c0596a7b",
+   "sessionTitle": "fix-poller",
+   "origin": "Desktop",
+   "name": "verify:batch1",
+   "description": "Retries and a rate limit hit in the middle.",
+   "status": "completed",
+   "startedAt": 1791024600000,
+   "endedAt": 1791026340000,
+   "durationMs": 1740000,
+   "agentsTotal": 3,
+   "agentsDone": 2,
+   "agentsFailed": 1,
+   "tokens": 78300,
+   "toolUses": 23,
+   "phases": [
+    {
+     "title": "Execute",
+     "detail": null,
+     "state": "partial",
+     "done": 2,
+     "failed": 1,
+     "total": 3,
+     "agents": [
+      {
+       "id": "a0022f3c9d2",
+       "label": "exec:a",
+       "phase": "Execute",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 70100,
+       "toolUses": 21,
+       "startedAt": 1791025620000,
+       "endedAt": 1791026160000,
+       "durationMs": 540000,
+       "attempt": 2,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0023f3c9d2",
+       "label": "exec:b",
+       "phase": "Execute",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 0,
+       "toolUses": 0,
+       "startedAt": null,
+       "endedAt": 1791026280000,
+       "durationMs": null,
+       "attempt": 1,
+       "cached": true,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0024f3c9d2",
+       "label": "exec:c",
+       "phase": "Execute",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "failed",
+       "quietSec": 0,
+       "tokens": 8200,
+       "toolUses": 2,
+       "startedAt": 1791025200000,
+       "endedAt": 1791025500000,
+       "durationMs": 300000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": {
+        "status": 500,
+        "error": "server_error",
+        "text": "API Error: 500 Internal server error"
+       },
+       "resultPreview": null,
+       "eta": null
+      }
+     ]
+    }
+   ],
+   "eta": null
+  },
+  {
+   "kind": "workflow",
+   "key": "e5ce9d45:wf_d5f00fed-f46",
+   "runId": "wf_d5f00fed-f46",
+   "sessionId": "e5ce9d45-addc-4585-9608-4c76c0596a7b",
+   "sessionTitle": "7c1f0a2e",
+   "origin": null,
+   "name": "resume-demo",
+   "description": null,
+   "status": "paused",
+   "startedAt": 1791018000000,
+   "endedAt": 1791021600000,
+   "durationMs": 3605000,
+   "agentsTotal": 1,
+   "agentsDone": 1,
+   "agentsFailed": 0,
+   "tokens": 910000,
+   "toolUses": 120,
+   "phases": [
+    {
+     "title": "Main",
+     "detail": null,
+     "state": "done",
+     "done": 1,
+     "failed": 0,
+     "total": 1,
+     "agents": [
+      {
+       "id": "a0025f3c9d2",
+       "label": "main:a",
+       "phase": "Main",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 910000,
+       "toolUses": 120,
+       "startedAt": 1791018000000,
+       "endedAt": 1791021600000,
+       "durationMs": 3600000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      }
+     ]
+    }
+   ],
+   "eta": null
+  }
+ ],
+ "warnings": [],
+ "formatNote": null
+}

@@ -1,0 +1,30 @@
+{
+ "v": 1,
+ "now": 1791028800000,
+ "scope": "workspace",
+ "scopeLabel": "Arbeitsbereich: agent-view",
+ "claudeHome": "C:\\Users\\jansm\\.claude",
+ "running": [],
+ "recent": [],
+ "warnings": [],
+ "formatNote": null,
+ "usage": {
+  "fetchedAt": 1791025680000,
+  "windows": [
+   {
+    "id": "five_hour",
+    "label": "5-Stunden-Limit",
+    "percent": 94,
+    "resetsAt": 1791028320000,
+    "severity": "critical"
+   },
+   {
+    "id": "weekly",
+    "label": "Wochenlimit",
+    "percent": 93,
+    "resetsAt": 1791226800000,
+    "severity": "critical"
+   }
+  ]
+ }
+}

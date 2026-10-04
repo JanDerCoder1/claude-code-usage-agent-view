@@ -1,0 +1,190 @@
+{
+  "name": "claude-code-usage-agent-view",
+  "displayName": "Claude Code Utilities",
+  "description": "Zeigt laufende Claude-Code-Agenten und Workflows als Karten, dazu das 5-Stunden- und das Wochenlimit; auch in einem eigenen kleinen Fenster. Mit Hand-Off (Kontext in eine Markdown-Datei) und Clear (neue Unterhaltung); nur lesend gegenüber ~/.claude, nur lokale Dateien.",
+  "version": "0.9.3",
+  "publisher": "local",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "vscode": "^1.94.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "extensionKind": [
+    "workspace"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onStartupFinished",
+    "onWebviewPanel:agentView.floating"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": false
+  },
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "agentView",
+          "title": "Claude Code Utilities",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "agentView": [
+        {
+          "type": "webview",
+          "id": "agentView.cards",
+          "name": "Agenten",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "agentView.open",
+        "title": "Claude Code Utilities: Öffnen"
+      },
+      {
+        "command": "agentView.openFloating",
+        "title": "Claude Code Utilities: In schwebendem Fenster öffnen",
+        "icon": "$(multiple-windows)"
+      },
+      {
+        "command": "agentView.handoff",
+        "title": "Claude Code Utilities: Hand-Off (Kontext in Markdown-Datei schreiben)",
+        "icon": "$(export)"
+      },
+      {
+        "command": "agentView.clearSession",
+        "title": "Claude Code Utilities: Clear (neue Unterhaltung starten)",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "agentView.refresh",
+        "title": "Claude Code Utilities: Aktualisieren",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "agentView.toggleScope",
+        "title": "Claude Code Utilities: Arbeitsbereich / Alle Sitzungen",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "agentView.resetEtaHistory",
+        "title": "Claude Code Utilities: Zeitschätzungs-Verlauf löschen"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "agentView.refresh",
+          "when": "view == agentView.cards",
+          "group": "navigation@1"
+        },
+        {
+          "command": "agentView.toggleScope",
+          "when": "view == agentView.cards",
+          "group": "navigation@2"
+        },
+        {
+          "command": "agentView.openFloating",
+          "when": "view == agentView.cards",
+          "group": "navigation@0"
+        },
+        {
+          "command": "agentView.handoff",
+          "when": "view == agentView.cards",
+          "group": "navigation@4"
+        },
+        {
+          "command": "agentView.clearSession",
+          "when": "view == agentView.cards",
+          "group": "navigation@5"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Claude Code Utilities",
+      "properties": {
+        "agentView.scope": {
+          "type": "string",
+          "enum": [
+            "workspace",
+            "all"
+          ],
+          "default": "workspace",
+          "description": "Welche Sitzungen angezeigt werden."
+        },
+        "agentView.recentHours": {
+          "type": "number",
+          "default": 24,
+          "minimum": 1,
+          "description": "Zuletzt fertige Einträge der letzten N Stunden."
+        },
+        "agentView.claudeHome": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "Überschreibt CLAUDE_CONFIG_DIR / ~/.claude. Nur absolute lokale Pfade (keine Netzwerkpfade); gilt nur in den Benutzereinstellungen, nie aus einem Arbeitsbereich."
+        },
+        "agentView.showToolTargets": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ziel des aktuellen Tools (Pfad, Befehl) anzeigen."
+        },
+        "agentView.pollMs": {
+          "type": "number",
+          "default": 1500,
+          "minimum": 500,
+          "description": "Abfrageintervall bei laufenden Agenten."
+        },
+        "agentView.staleMinutes": {
+          "type": "number",
+          "default": 10,
+          "minimum": 2,
+          "description": "Ruhezeit, nach der ein Lauf als verwaist ('gestoppt') gilt, wenn das Sitzungsverzeichnis ~/.claude/sessions fehlt. Mit diesem Verzeichnis (Normalfall) gilt ein Lauf einer lebenden Sitzung erst nach mindestens 60 Minuten Ruhe als verwaist; dieser Wert wirkt dort nur, wenn er größer ist. 'ruhig seit' erscheint unabhängig davon fest nach 10 Minuten Ruhe."
+        },
+        "agentView.eta.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Geschätzte Restzeit anzeigen."
+        },
+        "agentView.usage.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Zeigt das 5-Stunden- und das Wochenlimit (Prozent, Reset-Zeit). Gelesen wird nur der Schlüssel cachedUsageUtilization aus der Konfigurationsdatei ~/.claude.json, die Claude Code selbst pflegt; es gibt keine Netzwerkabfrage und keine Zugangsdaten werden gelesen. Der Wert ist so aktuell wie die letzte Abfrage von Claude Code."
+        },
+        "agentView.usage.autoRefreshMinutes": {
+          "type": "number",
+          "default": 5,
+          "minimum": 0,
+          "description": "Wie oft die Erweiterung selbst den Claude-Code-Befehl /usage ausführt, solange die Ansicht sichtbar ist (in Minuten; 0 = nie). Der Befehl läuft lokal und ohne Modellaufruf (claude -p /usage, ohne deine Benutzer-Hooks) und frischt die Zahlen der Nutzungsanzeige auf. Der Aktualisieren-Knopf führt ihn immer sofort aus."
+        },
+        "agentView.floating.width": {
+          "type": "number",
+          "default": 380,
+          "minimum": 0,
+          "description": "Breite des schwebenden Fensters beim Öffnen (Pixel, bei hoher Skalierung automatisch größer; mindestens 200, 0 = 380). Nur unter Windows."
+        },
+        "agentView.floating.height": {
+          "type": "number",
+          "default": 480,
+          "minimum": 0,
+          "description": "Höhe des schwebenden Fensters beim Öffnen (Pixel, bei hoher Skalierung automatisch größer; mindestens 200, 0 = 480). Nur unter Windows. Das Fenster erscheint oben rechts im VS-Code-Fenster, aus dem du es geöffnet hast."
+        },
+        "agentView.floating.closeWithVscode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Schließt das schwebende Fenster, sobald das VS-Code-Fenster, aus dem du es geöffnet hast, geschlossen wird (Windows; ein kleiner PowerShell-Wächter passt darauf auf)."
+        }
+      }
+    }
+  }
+}

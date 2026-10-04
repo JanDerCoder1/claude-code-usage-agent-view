@@ -1,0 +1,17 @@
+/* Approximation of the defaults VS Code injects into every webview (they sit in @layer vscode-default, so unlayered
+   extension CSS wins). Included by the harness to prove that media/main.css overrides them. */
+@layer vscode-default {
+  html { scrollbar-color: var(--vscode-scrollbarSlider-background) transparent; }
+  body {
+    background-color: transparent;
+    color: var(--vscode-editor-foreground);
+    font-family: var(--vscode-font-family);
+    font-size: var(--vscode-font-size);
+    margin: 0;
+    padding: 0 20px;
+  }
+  img, video { max-width: 100%; max-height: 100%; }
+  a, a code { color: var(--vscode-textLink-foreground); }
+  code { font-family: var(--vscode-editor-font-family, monospace); }
+  button { font-family: var(--vscode-font-family); }
+}

@@ -1,0 +1,176 @@
+{
+ "v": 1,
+ "now": 1791028800000,
+ "scope": "workspace",
+ "scopeLabel": "Arbeitsbereich: agent-view",
+ "claudeHome": "C:\\Users\\jansm\\.claude",
+ "running": [],
+ "recent": [
+  {
+   "kind": "agent",
+   "key": "e5ce9d45:a0033f3c9d2",
+   "sessionId": "e5ce9d45-addc-4585-9608-4c76c0596a7b",
+   "sessionTitle": "coding-92",
+   "origin": "VS Code",
+   "agent": {
+    "id": "a0033f3c9d2",
+    "label": "Refactor poller cadence",
+    "phase": null,
+    "kind": "task",
+    "agentType": "general-purpose",
+    "shape": "background",
+    "model": {
+     "id": "claude-sonnet-5-5",
+     "label": "Sonnet 5.5"
+    },
+    "state": "failed",
+    "quietSec": 0,
+    "tokens": 21000,
+    "toolUses": 6,
+    "startedAt": 1791028080000,
+    "endedAt": 1791028260000,
+    "durationMs": 180000,
+    "attempt": 1,
+    "cached": false,
+    "loading": false,
+    "activity": null,
+    "failure": {
+     "status": 429,
+     "error": "rate_limit",
+     "text": "You've hit your session limit · resets 6pm (Europe/Berlin)"
+    },
+    "resultPreview": null,
+    "eta": null
+   }
+  },
+  {
+   "kind": "agent",
+   "key": "e5ce9d45:a0034f3c9d2",
+   "sessionId": "e5ce9d45-addc-4585-9608-4c76c0596a7b",
+   "sessionTitle": "coding-92",
+   "origin": "VS Code",
+   "agent": {
+    "id": "a0034f3c9d2",
+    "label": "Check CSP of the webview",
+    "phase": null,
+    "kind": "task",
+    "agentType": "Explore",
+    "shape": "background",
+    "model": {
+     "id": "claude-haiku-4-5-20251001",
+     "label": "Haiku 4.5"
+    },
+    "state": "failed",
+    "quietSec": 0,
+    "tokens": 4100,
+    "toolUses": 1,
+    "startedAt": 1791027000000,
+    "endedAt": 1791027060000,
+    "durationMs": 60000,
+    "attempt": 1,
+    "cached": false,
+    "loading": false,
+    "activity": null,
+    "failure": {
+     "status": 500,
+     "error": "server_error",
+     "text": "API Error: 500 {\"type\":\"error\",\"error\":{\"type\":\"api_error\",\"message\":\"Internal server error\"}} - this is a server-side problem, retrying may help"
+    },
+    "resultPreview": null,
+    "eta": null
+   }
+  },
+  {
+   "kind": "workflow",
+   "key": "e5ce9d45:wf_b324854d-978",
+   "runId": "wf_b324854d-978",
+   "sessionId": "e5ce9d45-addc-4585-9608-4c76c0596a7b",
+   "sessionTitle": "coding-92",
+   "origin": "VS Code",
+   "name": "research:limits",
+   "description": "Collects the rate limit facts.",
+   "status": "killed",
+   "startedAt": 1791025800000,
+   "endedAt": 1791026160000,
+   "durationMs": 360000,
+   "agentsTotal": 2,
+   "agentsDone": 0,
+   "agentsFailed": 1,
+   "tokens": 21000,
+   "toolUses": 7,
+   "phases": [
+    {
+     "title": "Research",
+     "detail": null,
+     "state": "partial",
+     "done": 0,
+     "failed": 2,
+     "total": 2,
+     "agents": [
+      {
+       "id": "a0035f3c9d2",
+       "label": "research:a",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "failed",
+       "quietSec": 0,
+       "tokens": 9000,
+       "toolUses": 3,
+       "startedAt": 1791025800000,
+       "endedAt": 1791026100000,
+       "durationMs": 300000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": {
+        "status": 429,
+        "error": "rate_limit",
+        "text": "You've hit your session limit · resets Oct 4, 9am (Europe/Berlin)"
+       },
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0036f3c9d2",
+       "label": "research:b",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "interrupted",
+       "quietSec": 0,
+       "tokens": 12000,
+       "toolUses": 4,
+       "startedAt": 1791025800000,
+       "endedAt": 1791026160000,
+       "durationMs": 360000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      }
+     ]
+    }
+   ],
+   "eta": null
+  }
+ ],
+ "warnings": [
+  "Sitzung 7c1f0a2e: agent-a91c.jsonl konnte nicht gelesen werden (EBUSY)."
+ ],
+ "formatNote": "Format getestet mit Claude Code 2.1.263-2.1.287; gefunden: 2.1.290."
+}

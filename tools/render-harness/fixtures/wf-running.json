@@ -1,0 +1,577 @@
+{
+ "v": 1,
+ "now": 1791028800000,
+ "scope": "workspace",
+ "scopeLabel": "Arbeitsbereich: agent-view",
+ "claudeHome": "C:\\Users\\jansm\\.claude",
+ "running": [
+  {
+   "kind": "workflow",
+   "key": "e5ce9d45:wf_5281790c-ce8",
+   "runId": "wf_5281790c-ce8",
+   "sessionId": "e5ce9d45-addc-4585-9608-4c76c0596a7b",
+   "sessionTitle": "coding-92",
+   "origin": "VS Code",
+   "name": "agent-rail-research",
+   "description": "Parallele Recherche der Schnittstellen-Fakten, die für eine Live-Anzeige der Agenten als Karten nötig sind: Laufzeit, verbrauchte Tokens, geschätzte Restzeit und die aktuelle Tätigkeit jedes Agenten.\nVier Leser prüfen je ein Gebiet; danach vergleicht ein Kritiker die Berichte gegeneinander und schreibt die Bauanleitung.",
+   "status": "running",
+   "startedAt": 1791028428000,
+   "endedAt": null,
+   "durationMs": null,
+   "agentsTotal": 4,
+   "agentsDone": 0,
+   "agentsFailed": 0,
+   "tokens": 380200,
+   "toolUses": 52,
+   "phases": [
+    {
+     "title": "Research",
+     "detail": "Fakten zur Plugin-API sammeln",
+     "state": "running",
+     "done": 0,
+     "failed": 0,
+     "total": 4,
+     "agents": [
+      {
+       "id": "a0001f3c9d2",
+       "label": "research:usage",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "running",
+       "quietSec": 3,
+       "tokens": 95900,
+       "toolUses": 14,
+       "startedAt": 1791028428000,
+       "endedAt": null,
+       "durationMs": null,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": {
+        "kind": "tool",
+        "tool": "Grep",
+        "target": "C:/Users/jansm/.claude/projects/C--Unternehmung-Technik-claude-GUI/e5ce9d45-addc-4585-9608-4c76c0596a7b/subagents/workflows/wf_5281790c-ce8/journal.jsonl",
+        "running": true
+       },
+       "failure": null,
+       "resultPreview": null,
+       "eta": {
+        "kind": "number",
+        "basis": "siblings",
+        "lo": 200,
+        "mid": 240,
+        "hi": 280,
+        "text": "~4 Min.",
+        "tip": "Basis: 3 fertige Geschwister (grob, getestet an 73 Läufen)"
+       }
+      },
+      {
+       "id": "a0002f3c9d2",
+       "label": "research:lifecycle",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "running",
+       "quietSec": 3,
+       "tokens": 94300,
+       "toolUses": 12,
+       "startedAt": 1791028428000,
+       "endedAt": null,
+       "durationMs": null,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": {
+        "kind": "tool",
+        "tool": "Read",
+        "target": "src/extension.ts",
+        "running": true,
+        "parallel": 3
+       },
+       "failure": null,
+       "resultPreview": null,
+       "eta": {
+        "kind": "range",
+        "basis": "siblings",
+        "lo": 120,
+        "mid": 300,
+        "hi": 480,
+        "text": "2–8 Min.",
+        "tip": "Grobe Schätzung, die Spanne ist bewusst breit. Basis: 2 fertige Geschwister (gleiche Phase, gleicher Lauf)."
+       }
+      },
+      {
+       "id": "a0003f3c9d2",
+       "label": "research:pane",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "running",
+       "quietSec": 3,
+       "tokens": 102400,
+       "toolUses": 17,
+       "startedAt": 1791028430000,
+       "endedAt": null,
+       "durationMs": null,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": {
+        "kind": "thinking",
+        "running": true
+       },
+       "failure": null,
+       "resultPreview": null,
+       "eta": {
+        "kind": "late",
+        "basis": "siblings",
+        "lo": null,
+        "mid": null,
+        "hi": null,
+        "text": "länger als die anderen (meist < 4 Min. mehr)",
+        "tip": "Basis: 4 fertige Geschwister, dieser Agent läuft länger als alle"
+       }
+      },
+      {
+       "id": "a0004f3c9d2",
+       "label": "research:state",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "running",
+       "quietSec": 3,
+       "tokens": 87600,
+       "toolUses": 9,
+       "startedAt": 1791028431000,
+       "endedAt": null,
+       "durationMs": null,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": {
+        "kind": "writing",
+        "running": true
+       },
+       "failure": null,
+       "resultPreview": null,
+       "eta": {
+        "kind": "unknown",
+        "basis": "global",
+        "lo": null,
+        "mid": null,
+        "hi": null,
+        "text": "unbekannt",
+        "tip": "nur Erfahrungswert: 2-9 Min. (n = 595 Agenten aus 55 Läufen)"
+       }
+      }
+     ]
+    },
+    {
+     "title": "Critic",
+     "detail": null,
+     "state": "pending",
+     "done": 0,
+     "failed": 0,
+     "total": 0,
+     "agents": []
+    }
+   ],
+   "eta": {
+    "kind": "range",
+    "basis": "phases",
+    "lo": 480,
+    "mid": 900,
+    "hi": 1800,
+    "text": "Rest grob: 8–30 Min.",
+    "tip": "Grobe Schätzung. Basis: restliche Zeit der aktuellen Phase plus 1 weitere Phase in typischer Länge. Trefferquote nur etwa 60 %."
+   }
+  },
+  {
+   "kind": "workflow",
+   "key": "e5ce9d45:wf_b7710e2a-c41",
+   "runId": "wf_b7710e2a-c41",
+   "sessionId": "e5ce9d45-addc-4585-9608-4c76c0596a7b",
+   "sessionTitle": "fix-poller",
+   "origin": "Desktop",
+   "name": "verify:batch2",
+   "description": "Prüft die neue Abfrage-Schleife gegen den echten Sitzungsbaum: ein Agent je Modul, Wiederholung bei Ratenbegrenzung (429), die Ergebnisse sammelt der Kritiker am Ende.",
+   "status": "running",
+   "startedAt": 1791027379000,
+   "endedAt": null,
+   "durationMs": null,
+   "agentsTotal": 10,
+   "agentsDone": 4,
+   "agentsFailed": 1,
+   "tokens": 428900,
+   "toolUses": 145,
+   "phases": [
+    {
+     "title": "Plan",
+     "detail": null,
+     "state": "done",
+     "done": 2,
+     "failed": 0,
+     "total": 2,
+     "agents": [
+      {
+       "id": "a0005f3c9d2",
+       "label": "plan:scope",
+       "phase": "Plan",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 41200,
+       "toolUses": 6,
+       "startedAt": 1791027389000,
+       "endedAt": 1791027540000,
+       "durationMs": 151000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": "Scope: poller.js, sessionModel.js, history.js; 14 modules affected, 3 risky.",
+       "eta": null
+      },
+      {
+       "id": "a0006f3c9d2",
+       "label": "plan:order",
+       "phase": "Plan",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 52100,
+       "toolUses": 8,
+       "startedAt": 1791027418000,
+       "endedAt": 1791027600000,
+       "durationMs": 182000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      }
+     ]
+    },
+    {
+     "title": "Execute",
+     "detail": "Ein Agent pro Modul",
+     "state": "running",
+     "done": 2,
+     "failed": 3,
+     "total": 8,
+     "agents": [
+      {
+       "id": "a0007f3c9d2",
+       "label": "exec:parser",
+       "phase": "Execute",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "running",
+       "quietSec": 3,
+       "tokens": 61800,
+       "toolUses": 22,
+       "startedAt": 1791028256000,
+       "endedAt": null,
+       "durationMs": null,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": {
+        "kind": "tool",
+        "tool": "Bash",
+        "target": "node --test test/tail.test.js",
+        "running": true
+       },
+       "failure": null,
+       "resultPreview": null,
+       "eta": {
+        "kind": "unknown",
+        "basis": "global",
+        "lo": null,
+        "mid": null,
+        "hi": null,
+        "text": "unbekannt",
+        "tip": "nur Erfahrungswert: 2-9 Min. (n = 595 Agenten aus 55 Läufen)"
+       }
+      },
+      {
+       "id": "a0008f3c9d2",
+       "label": "exec:fold",
+       "phase": "Execute",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "running",
+       "quietSec": 662,
+       "tokens": 78300,
+       "toolUses": 31,
+       "startedAt": 1791027725000,
+       "endedAt": null,
+       "durationMs": null,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": {
+        "kind": "tool",
+        "tool": "Edit",
+        "target": "lib/agentFold.js",
+        "running": false
+       },
+       "failure": null,
+       "resultPreview": null,
+       "eta": {
+        "kind": "unknown",
+        "basis": "none",
+        "lo": null,
+        "mid": null,
+        "hi": null,
+        "text": "keine Aktivität",
+        "tip": "Seit mehr als 10 Minuten keine neue Zeile im Protokoll"
+       }
+      },
+      {
+       "id": "a0009f3c9d2",
+       "label": "exec:model",
+       "phase": "Execute",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "waiting",
+       "quietSec": 24,
+       "tokens": 55000,
+       "toolUses": 19,
+       "startedAt": 1791028290000,
+       "endedAt": null,
+       "durationMs": null,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": {
+        "kind": "waiting",
+        "running": false
+       },
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0010f3c9d2",
+       "label": "exec:eta",
+       "phase": "Execute",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 83900,
+       "toolUses": 40,
+       "startedAt": 1791027953000,
+       "endedAt": 1791028620000,
+       "durationMs": 667000,
+       "attempt": 2,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0011f3c9d2",
+       "label": "exec:history",
+       "phase": "Execute",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 0,
+       "toolUses": 0,
+       "startedAt": null,
+       "endedAt": 1791028680000,
+       "durationMs": null,
+       "attempt": 1,
+       "cached": true,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0012f3c9d2",
+       "label": "exec:poller",
+       "phase": "Execute",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "failed",
+       "quietSec": 0,
+       "tokens": 17400,
+       "toolUses": 5,
+       "startedAt": 1791027960000,
+       "endedAt": 1791028260000,
+       "durationMs": 300000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": {
+        "status": 429,
+        "error": "rate_limit",
+        "text": "You've hit your session limit · resets 6pm (Europe/Berlin)"
+       },
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0013f3c9d2",
+       "label": "exec:ui",
+       "phase": "Execute",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "interrupted",
+       "quietSec": 0,
+       "tokens": 30100,
+       "toolUses": 11,
+       "startedAt": 1791028080000,
+       "endedAt": 1791028380000,
+       "durationMs": 300000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0014f3c9d2",
+       "label": "exec:shell",
+       "phase": "Execute",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "stopped",
+       "quietSec": 0,
+       "tokens": 9100,
+       "toolUses": 3,
+       "startedAt": 1791028020000,
+       "endedAt": 1791028200000,
+       "durationMs": 180000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      }
+     ]
+    },
+    {
+     "title": "Report",
+     "detail": null,
+     "state": "pending",
+     "done": 0,
+     "failed": 0,
+     "total": 0,
+     "agents": []
+    }
+   ],
+   "eta": null
+  }
+ ],
+ "recent": [],
+ "warnings": [],
+ "formatNote": null,
+ "usage": {
+  "fetchedAt": 1791028080000,
+  "windows": [
+   {
+    "id": "five_hour",
+    "label": "5-Stunden-Limit",
+    "percent": 68,
+    "resetsAt": 1791035580000,
+    "severity": "warning"
+   },
+   {
+    "id": "weekly",
+    "label": "Wochenlimit",
+    "percent": 27,
+    "resetsAt": 1791561600000,
+    "severity": "normal"
+   }
+  ]
+ }
+}
