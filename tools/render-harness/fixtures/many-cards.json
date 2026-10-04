@@ -3,7 +3,7 @@
  "now": 1791028800000,
  "scope": "all",
  "scopeLabel": "Alle Projekte",
- "claudeHome": "C:\\Users\\jansm\\.claude",
+ "claudeHome": "C:\\Users\\user\\.claude",
  "running": [
   {
    "kind": "workflow",

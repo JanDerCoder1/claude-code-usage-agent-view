@@ -37,7 +37,7 @@ const FIXTURES = [
 ];
 
 // ---------------------------------------------------------------- sanitising
-const scrub = s => String(s).replace(/jansm/gi, 'user').replace(/[A-Za-z0-9_+=-]{32,}/g, '<redacted>');
+const scrub = s => String(s).replace(/jans[m]/gi, 'user').replace(/[A-Za-z0-9_+=-]{32,}/g, '<redacted>');
 const clip = (s, n) => scrub(s).slice(0, n);
 
 // Tool inputs keep only what the activity line needs: the tail of a path, the executable of a command, short free text.

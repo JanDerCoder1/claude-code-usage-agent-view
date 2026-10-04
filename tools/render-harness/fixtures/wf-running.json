@@ -3,7 +3,7 @@
  "now": 1791028800000,
  "scope": "workspace",
  "scopeLabel": "Arbeitsbereich: agent-view",
- "claudeHome": "C:\\Users\\jansm\\.claude",
+ "claudeHome": "C:\\Users\\user\\.claude",
  "running": [
   {
    "kind": "workflow",
@@ -56,7 +56,7 @@
        "activity": {
         "kind": "tool",
         "tool": "Grep",
-        "target": "C:/Users/jansm/.claude/projects/C--Unternehmung-Technik-claude-GUI/e5ce9d45-addc-4585-9608-4c76c0596a7b/subagents/workflows/wf_5281790c-ce8/journal.jsonl",
+        "target": "C:/Users/user/.claude/projects/my-project/e5ce9d45-addc-4585-9608-4c76c0596a7b/subagents/workflows/wf_5281790c-ce8/journal.jsonl",
         "running": true
        },
        "failure": null,

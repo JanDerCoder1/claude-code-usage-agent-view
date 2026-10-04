@@ -736,7 +736,7 @@ describe('tools/make-fixtures sanitiser', () => {
         { type: 'thinking', thinking: 'secret reasoning', signature: 'AAAA' },
         { type: 'text', text: 'some words '.repeat(20) },
         { type: 'tool_use', id: 't1', name: 'Bash', input: { command: 'curl -H "Authorization: Bearer abcdefghijklmnopqrstuvwxyz0123456789" https://x.test', description: 'describe '.repeat(30), prompt: 'SECRET PROMPT' } },
-        { type: 'tool_use', id: 't2', name: 'Read', input: { file_path: 'C:\\Users\\jansm\\proj\\customer\\very\\deep\\file.js', content: 'FILE CONTENTS' } },
+        { type: 'tool_use', id: 't2', name: 'Read', input: { file_path: 'C:\\Users\\someone\\proj\\customer\\very\\deep\\file.js', content: 'FILE CONTENTS' } },
         { type: 'tool_use', id: 't3', name: 'SubagentHandback', input: { message: 'message words '.repeat(30) } },
       ] },
   };
@@ -757,7 +757,7 @@ describe('tools/make-fixtures sanitiser', () => {
     assert.equal(c.message.content[2].input.prompt, undefined);
     assert.ok(c.message.content[2].input.description.length <= 40);
     assert.equal(c.message.content[3].input.content, undefined);
-    assert.ok(!/jansm/i.test(JSON.stringify(c)));
+    assert.ok(!/someone/i.test(JSON.stringify(c)));
     assert.equal(c.message.content[3].input.file_path, '<dir>/deep/file.js');
     assert.equal(c.message.content[4].input.message.length, 48);
     assert.equal(ctx.toolNames.get('t3'), 'SubagentHandback');
@@ -815,7 +815,7 @@ describe('tools/make-fixtures sanitiser', () => {
     assert.ok(names.length >= 16);
     for (const f of names) {
       const text = fs.readFileSync(path.join(FIX, f), 'utf8');
-      assert.ok(!/jansm/i.test(text), f);
+      assert.ok(!/someone/i.test(text), f);
       assert.ok(text.endsWith('\n'), f);
       for (const l of text.split('\n').filter(Boolean)) {
         const o = JSON.parse(l);
@@ -824,8 +824,8 @@ describe('tools/make-fixtures sanitiser', () => {
       }
     }
     assert.ok(maxLen <= 80, 'longest string ' + maxLen);
-    assert.ok(!/jansm/i.test(fs.readFileSync(path.join(FIX, 'manifest.json'), 'utf8')));
-    assert.ok(!/jansm/i.test(fs.readFileSync(path.join(FIX, 'wf-killed.result.json'), 'utf8')));
+    assert.ok(!/someone/i.test(fs.readFileSync(path.join(FIX, 'manifest.json'), 'utf8')));
+    assert.ok(!/someone/i.test(fs.readFileSync(path.join(FIX, 'wf-killed.result.json'), 'utf8')));
   });
 });
 

@@ -2,7 +2,7 @@
 
 Standalone VS Code extension (`local.agent-view`), plain JavaScript, zero npm dependencies, strictly read-only. It shows Claude Code agents and workflows as live cards (label, model, tokens, elapsed, phases n/m, honest remaining-time label, current activity) by reading the session files on disk.
 
-Evidence tags used below: **[V]** = reproduced by the lead in this pass with a script in the scratchpad (`C:/Users/jansm/AppData/Local/Temp/claude/C--Unternehmung-Technik-claude-GUI/e5ce9d45-addc-4585-9608-4c76c0596a7b/scratchpad`), **[R]** = reported by an investigator and consistent with every spot check, **[U]** = unverified, treat as assumption. Where this spec contradicts a report, the correction is listed in the separate corrections list and marked "(C#)" here.
+Evidence tags used below: **[V]** = reproduced by the lead in this pass with a script in the scratchpad (`C:/Users/user/AppData/Local/Temp/claude/C--Unternehmung-Technik-claude-GUI/e5ce9d45-addc-4585-9608-4c76c0596a7b/scratchpad`), **[R]** = reported by an investigator and consistent with every spot check, **[U]** = unverified, treat as assumption. Where this spec contradicts a report, the correction is listed in the separate corrections list and marked "(C#)" here.
 
 ---
 
@@ -341,11 +341,11 @@ node C:\Unternehmung\Technik\claude\GUI\agent-view\tools\zip-list.js C:\Unterneh
 ```
 
 ```powershell
-& 'C:\Users\jansm\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd' --install-extension 'C:\Unternehmung\Technik\claude\GUI\agent-view\dist\agent-view-0.1.0.vsix'
+& 'C:\Users\user\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd' --install-extension 'C:\Unternehmung\Technik\claude\GUI\agent-view\dist\agent-view-0.1.0.vsix'
 ```
 
 ```powershell
-& 'C:\Users\jansm\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd' --list-extensions --show-versions
+& 'C:\Users\user\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd' --list-extensions --show-versions
 ```
 
 Erwartete letzte Ausgabe der Liste: `local.agent-view@0.1.0`. Facts: reinstalling the same version replaces in place (with or without `--force`); the engines check is enforced; no auto-update for a local vsix, so bump `version` for every change. The CLI prints a harmless DEP0169 warning.
@@ -353,23 +353,23 @@ Erwartete letzte Ausgabe der Liste: `local.agent-view@0.1.0`. Facts: reinstallin
 Deinstallieren:
 
 ```powershell
-& 'C:\Users\jansm\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd' --uninstall-extension local.agent-view
+& 'C:\Users\user\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd' --uninstall-extension local.agent-view
 ```
 
 Entwicklungsschleife ohne Installation (hidden flag `--extensionDevelopmentPath`, repeatable; inferred from main.js to work against the running instance, NOT executed because it opens a window in the user's profile); in that window `Strg+R` reloads the extension:
 
 ```powershell
-& 'C:\Users\jansm\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd' --extensionDevelopmentPath='C:\Unternehmung\Technik\claude\GUI\agent-view'
+& 'C:\Users\user\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd' --extensionDevelopmentPath='C:\Unternehmung\Technik\claude\GUI\agent-view'
 ```
 
 Isolated verification profile (this exact syntax with `--extensions-dir` and `--user-data-dir` was run in the scratchpad and touches none of the user's extensions); first block installs, second lists:
 
 ```powershell
-& 'C:\Users\jansm\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd' --install-extension 'C:\Unternehmung\Technik\claude\GUI\agent-view\dist\agent-view-0.1.0.vsix' --extensions-dir 'C:\Unternehmung\Technik\claude\GUI\agent-view\.tmp\ext' --user-data-dir 'C:\Unternehmung\Technik\claude\GUI\agent-view\.tmp\ud'
+& 'C:\Users\user\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd' --install-extension 'C:\Unternehmung\Technik\claude\GUI\agent-view\dist\agent-view-0.1.0.vsix' --extensions-dir 'C:\Unternehmung\Technik\claude\GUI\agent-view\.tmp\ext' --user-data-dir 'C:\Unternehmung\Technik\claude\GUI\agent-view\.tmp\ud'
 ```
 
 ```powershell
-& 'C:\Users\jansm\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd' --list-extensions --show-versions --extensions-dir 'C:\Unternehmung\Technik\claude\GUI\agent-view\.tmp\ext' --user-data-dir 'C:\Unternehmung\Technik\claude\GUI\agent-view\.tmp\ud'
+& 'C:\Users\user\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd' --list-extensions --show-versions --extensions-dir 'C:\Unternehmung\Technik\claude\GUI\agent-view\.tmp\ext' --user-data-dir 'C:\Unternehmung\Technik\claude\GUI\agent-view\.tmp\ud'
 ```
 
 Blocker for anything that starts a window (including a second instance with its own `--user-data-dir`): while the `CodeSetup-stable-07f806f9...` installer is running, a second main process dies after ~31 s with "Code is currently being updated". The user must close all VS Code windows once so the update finishes, or the GUI tests wait.

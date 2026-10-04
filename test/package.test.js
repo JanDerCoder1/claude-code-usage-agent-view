@@ -230,7 +230,7 @@ test('docs/ANLEITUNG.md is German, lists the settings, the commands and the priv
   assert.match(md, /kein Netzwerk/);
   assert.match(md, /Kontextgröße, nicht die kumulierte Summe/);
   assert.match(md, /Die Restzeit ist grob/);
-  assert.ok(!/jansm|Unternehmung/.test(md), 'no personal paths in a document that goes public');
+  assert.ok(!/jans[m]|Unternehmung/.test(md), 'no personal paths in a document that goes public');
 });
 
 test('README (the short GitHub front page): sections, screenshot, links that resolve, install commands in their own blocks, no personal paths', () => {
@@ -239,7 +239,7 @@ test('README (the short GitHub front page): sections, screenshot, links that res
   assert.ok(md.startsWith('# Claude Code Utilities'));
   assert.match(md, /[äöü]/);
   assert.ok(!/fuer |Oeffn|loesch|Schaetz|Aenderung|Ueber/.test(md), 'no ASCII transliterations');
-  assert.ok(!/jansm|Unternehmung|C:\\/.test(md), 'no personal or machine-specific paths');
+  assert.ok(!/jans[m]|Unternehmung|C:\\/.test(md), 'no personal or machine-specific paths');
   assert.ok(md.split('\n').length <= 70, 'the front page stays short (details live in docs/ANLEITUNG.md)');
   // every relative link and image points at a file of the repository, anchors at a heading of the target
   for (const m of md.matchAll(/\]\((?!https?:|#)([^)#]+)(?:#([^)]*))?\)/g)) {
@@ -250,8 +250,8 @@ test('README (the short GitHub front page): sections, screenshot, links that res
       assert.ok(slugs.includes(m[2]), 'broken anchor: ' + m[1] + '#' + m[2]);
     }
   }
-  assert.match(md, /!\[[^\]]+\]\(docs\/images\/ansicht\.jpg\)/);
-  assert.ok(fs.statSync(path.join(ROOT, 'docs/images/ansicht.jpg')).size > 5000);
+  assert.match(md, /!\[[^\]]+\]\(docs\/images\/ansicht\.png\)/);
+  assert.ok(fs.statSync(path.join(ROOT, 'docs/images/ansicht.png')).size > 5000);
   assert.ok(md.includes('/handoff') && md.includes('/clear') && md.includes('docs/handoff-command.md'));
   assert.match(md, /127\.0\.0\.1/);
   assert.match(md, /Nur lesend, nur lokal/);

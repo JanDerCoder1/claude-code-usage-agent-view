@@ -3,7 +3,7 @@
  "now": 1791028800000,
  "scope": "workspace",
  "scopeLabel": "Arbeitsbereich: agent-view",
- "claudeHome": "C:\\Users\\jansm\\.claude",
+ "claudeHome": "C:\\Users\\user\\.claude",
  "running": [
   {
    "kind": "agent",
@@ -35,7 +35,7 @@
     "activity": {
      "kind": "tool",
      "tool": "Grep",
-     "target": "C:/Users/jansm/AppData/Local/Programs/Microsoft VS Code/resources/app/extensions",
+     "target": "C:/Users/user/AppData/Local/Programs/Microsoft VS Code/resources/app/extensions",
      "running": true
     },
     "failure": null,

@@ -3,7 +3,7 @@
  "now": 1791028800000,
  "scope": "workspace",
  "scopeLabel": "Arbeitsbereich: agent-view",
- "claudeHome": "C:\\Users\\jansm\\.claude",
+ "claudeHome": "C:\\Users\\user\\.claude",
  "running": [],
  "recent": [
   {
@@ -172,5 +172,5 @@
  "warnings": [
   "Sitzung 7c1f0a2e: agent-a91c.jsonl konnte nicht gelesen werden (EBUSY)."
  ],
- "formatNote": "Format getestet mit Claude Code 2.1.263-2.1.287; gefunden: 2.1.290."
+ "formatNote": "Format getestet mit Claude Code 2.1.263-2.1.288; gefunden: 2.2.0."
 }

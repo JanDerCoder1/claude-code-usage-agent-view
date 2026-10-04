@@ -6,7 +6,7 @@ If you find a contradiction, adapt YOUR side to this contract and report it in y
 (exception: the integration agent may edit anything).
 
 Reference code from the research phase (copy, adapt, do not import from there at runtime):
-`SCRATCH = C:/Users/jansm/AppData/Local/Temp/claude/C--Unternehmung-Technik-claude-GUI/e5ce9d45-addc-4585-9608-4c76c0596a7b/scratchpad`
+`SCRATCH = C:/Users/user/AppData/Local/Temp/claude/C--Unternehmung-Technik-claude-GUI/e5ce9d45-addc-4585-9608-4c76c0596a7b/scratchpad`
 (parseAgentTranscript.js, classify_end.js, safe_meta.js, t1_session_model.js, estimate.js, estimate.test.js, hello/, harness/, vsix-tools/).
 
 ## Global rules

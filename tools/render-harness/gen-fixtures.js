@@ -6,7 +6,7 @@ const path = require('path');
 
 const NOW = Date.parse('2026-10-03T12:00:00.000Z');
 const OUT = path.join(__dirname, 'fixtures');
-const HOME = 'C:\\Users\\jansm\\.claude';
+const HOME = 'C:\\Users\\user\\.claude';
 const SEC = 1000;
 const MIN = 60 * SEC;
 
@@ -76,7 +76,7 @@ function wfRunning() {
     status: 'running', startedAt: NOW - (6 * MIN + 12 * SEC), eta: eta('range', 'Rest grob: 8–30 Min.', 'Grobe Schätzung. Basis: restliche Zeit der aktuellen Phase plus 1 weitere Phase in typischer Länge. Trefferquote nur etwa 60 %.', 'phases', 480, 900, 1800),
   }, [
     phase('Research', 'Fakten zur Plugin-API sammeln', [
-      live('research:usage', 'Research', 6 * MIN + 12 * SEC, 95900, 14, { kind: 'tool', tool: 'Grep', target: 'C:/Users/jansm/.claude/projects/C--Unternehmung-Technik-claude-GUI/e5ce9d45-addc-4585-9608-4c76c0596a7b/subagents/workflows/wf_5281790c-ce8/journal.jsonl', running: true }, ETA.number),
+      live('research:usage', 'Research', 6 * MIN + 12 * SEC, 95900, 14, { kind: 'tool', tool: 'Grep', target: 'C:/Users/user/.claude/projects/my-project/e5ce9d45-addc-4585-9608-4c76c0596a7b/subagents/workflows/wf_5281790c-ce8/journal.jsonl', running: true }, ETA.number),
       live('research:lifecycle', 'Research', 6 * MIN + 12 * SEC, 94300, 12, { kind: 'tool', tool: 'Read', target: 'src/extension.ts', running: true, parallel: 3 }, ETA.range),
       live('research:pane', 'Research', 6 * MIN + 10 * SEC, 102400, 17, { kind: 'thinking', running: true }, ETA.late),
       live('research:state', 'Research', 6 * MIN + 9 * SEC, 87600, 9, { kind: 'writing', running: true }, ETA.unknown),
@@ -186,7 +186,7 @@ function wfKilled() {
 function taskAgents() {
   const r1 = taskCard(agent({
     label: 'Explore plugin API docs', agentType: 'Explore', shape: 'background', model: HAIKU, state: 'running', tokens: 43000, toolUses: 4,
-    startedAt: NOW - 43 * SEC, quietSec: 2, activity: { kind: 'tool', tool: 'Grep', target: 'C:/Users/jansm/AppData/Local/Programs/Microsoft VS Code/resources/app/extensions', running: true }, eta: ETA.unknown,
+    startedAt: NOW - 43 * SEC, quietSec: 2, activity: { kind: 'tool', tool: 'Grep', target: 'C:/Users/user/AppData/Local/Programs/Microsoft VS Code/resources/app/extensions', running: true }, eta: ETA.unknown,
   }));
   const r2 = taskCard(agent({
     label: 'Review diff for regressions', agentType: 'general-purpose', shape: 'foreground', model: SONNET, state: 'waiting', tokens: 88200, toolUses: 17,

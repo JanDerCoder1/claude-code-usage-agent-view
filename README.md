@@ -4,7 +4,7 @@ VS-Code-Erweiterung für Claude Code: laufende Agenten und Workflows als Karten,
 
 *English: a VS Code extension for Claude Code with live agent cards, 5-hour and weekly usage, a small floating window and Hand-Off / Clear buttons. German UI, local files only.*
 
-![Die Ansicht mit Nutzung, Hand-Off- und Clear-Knopf und einer Workflow-Karte (Beispieldaten)](docs/images/ansicht.jpg)
+![Die Ansicht mit Nutzung, Hand-Off- und Clear-Knopf und einer Workflow-Karte (Beispieldaten)](docs/images/ansicht.png)
 
 ## Was es kann
 
