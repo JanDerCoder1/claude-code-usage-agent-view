@@ -55,14 +55,14 @@ test('load: missing file and missing directory -> empty history, no throw, no fi
 });
 
 test('load: corrupt / foreign content -> empty history, and the next flush replaces the file with valid JSON', () => {
-  const bad = ['', '   ', 'not json', '{"v":1,', '[1,2,3]', 'null', '"str"', '{"v":2,"agents":[]}', '{"agents":[]}', '\u0000\u0000\u0000', '{"v":1,"agents":"x","phaseDurSec":5,"ingestedRuns":7}'];
+  const bad = ['', '   ', 'not json', '{"v":1,', '[1,2,3]', 'null', '"str"', '{"v":3,"agents":[]}', '{"agents":[]}', '{"v":1,"agents":[{"kind":"wf","prefix":"a","phase":"","model":"","proj":"","run":"r","dur":10}]}', '\u0000\u0000\u0000', '{"v":1,"agents":"x","phaseDurSec":5,"ingestedRuns":7}'];
   for (const content of bad) {
     const file = path.join(tmp(), 'history.json'); fs.writeFileSync(file, content);
     const h = new History(file); assert.doesNotThrow(() => h.load(), JSON.stringify(content));
     assert.deepEqual(h.snapshot(), { agents: [], phaseDurSec: [] }, JSON.stringify(content));
     assert.equal(h.ingestAgent('k1', { kind: 'wf', prefix: 'verify', phase: 'v', model: 'm', proj: 'p', run: 'r', durSec: 10 }), true);
     h.flush();
-    const j = JSON.parse(fs.readFileSync(file, 'utf8')); assert.equal(j.v, 1); assert.equal(j.agents.length, 1);
+    const j = JSON.parse(fs.readFileSync(file, 'utf8')); assert.equal(j.v, 2); assert.equal(j.agents.length, 1);
   }
 });
 
@@ -78,7 +78,7 @@ test('load: a directory or an oversized file at the history path is ignored', ()
 test('load: BOM tolerated, bad records dropped, valid ones kept', () => {
   const file = path.join(tmp(), 'history.json');
   const good = { kind: 'wf', prefix: 'verify', phase: 'v', model: 'm', proj: 'p', run: 'r1', dur: 120.5 };
-  fs.writeFileSync(file, '\uFEFF' + JSON.stringify({ v: 1, agents: [good, null, 5, {}, { ...good, dur: NaN }, { ...good, dur: -1 }, { ...good, dur: 0 }, { ...good, dur: 'x' }, { ...good, kind: 'zzz' }, { ...good, prefix: 3 }, { ...good, dur: 1e12 }, { ...good, run: 'r2', model: undefined }],
+  fs.writeFileSync(file, '\uFEFF' + JSON.stringify({ v: 2, agents: [good, null, 5, {}, { ...good, dur: NaN }, { ...good, dur: -1 }, { ...good, dur: 0 }, { ...good, dur: 'x' }, { ...good, kind: 'zzz' }, { ...good, prefix: 3 }, { ...good, dur: 1e12 }, { ...good, run: 'r2', model: undefined }],
     phaseDurSec: [100, 'x', NaN, -5, 0, null, 200], ingestedRuns: ['wf_aaa-111', 5, null, '', '../etc', 'bbb-222'], ingestedAgents: ['k1', 5, null, 'k1'] }));
   const h = new History(file); h.load();
   const s = h.snapshot();
@@ -93,7 +93,7 @@ test('load: files above the caps are trimmed to the caps, newest records kept', 
   const agents = []; for (let i = 0; i < CAPS.agents + 500; i++) agents.push({ kind: 'wf', prefix: 'p', phase: '', model: '', proj: '', run: 'r' + i, dur: 10 + (i % 7) });
   const phases = []; for (let i = 0; i < CAPS.phases + 50; i++) phases.push(100 + i);
   const ids = []; for (let i = 0; i < CAPS.ids + 100; i++) ids.push('run' + i);
-  fs.writeFileSync(file, JSON.stringify({ v: 1, agents, phaseDurSec: phases, ingestedRuns: ids, ingestedAgents: ids }));
+  fs.writeFileSync(file, JSON.stringify({ v: 2, agents, phaseDurSec: phases, ingestedRuns: ids, ingestedAgents: ids }));
   const h = new History(file); h.load(); const s = h.snapshot();
   assert.equal(s.agents.length, CAPS.agents); assert.equal(s.agents[0].run, 'r500'); assert.equal(s.agents[CAPS.agents - 1].run, 'r' + (CAPS.agents + 499));
   assert.equal(s.phaseDurSec.length, CAPS.phases); assert.equal(s.phaseDurSec[0], 150);
@@ -110,8 +110,8 @@ test('ingestAgent: normalises like eta.js, dedupes by key, rejects invalid input
   assert.equal(h.ingestAgent('s1/a1', { kind: 'task', prefix: 'Explore', durSec: 50 }), false);
   assert.equal(h.ingestAgent('s1/a2', { kind: 'wf', prefix: 'Prüfe:Foo (retry 2)', phase: 'Prüfung', model: 'm', proj: 'C--Proj', run: 'wf_abc-1', durSec: 12 }), true);
   const [a, b] = h.snapshot().agents;
-  assert.deepEqual(a, { kind: 'task', prefix: 'explore', phase: '', model: 'claude-haiku-4-5', proj: 'c--proj-x', run: 'a:s1/a1', dur: 43.3 });
-  assert.deepEqual(b, { kind: 'wf', prefix: 'pruefe', phase: 'pruefung', model: 'm', proj: 'c--proj', run: 'abc-1', dur: 12 });
+  assert.deepEqual(a, { kind: 'task', prefix: 'explore', phase: '', model: 'claude-haiku-4-5', proj: 'c--proj-x', run: 'a:s1/a1', dur: 43.3, np: 1, pos: 0 });
+  assert.deepEqual(b, { kind: 'wf', prefix: 'pruefe', phase: 'pruefung', model: 'm', proj: 'c--proj', run: 'abc-1', dur: 12, np: 1, pos: 0 });
   for (const bad of [undefined, null, 5, 'x', {}, { kind: 'wf' }, { kind: 'wf', prefix: 'a', durSec: 0 }, { kind: 'wf', prefix: 'a', durSec: -3 }, { kind: 'wf', prefix: 'a', durSec: NaN }, { kind: 'wf', prefix: 'a', durSec: Infinity },
     { kind: 'wf', prefix: 'a', durSec: '12' }, { kind: 'zzz', prefix: 'a', durSec: 5 }, { kind: 'wf', prefix: 'a', durSec: 1e9 }]) assert.equal(h.ingestAgent('bad-' + String(JSON.stringify(bad)), bad), false);
   for (const k of [undefined, null, '', 'x'.repeat(301)]) assert.equal(h.ingestAgent(k, { kind: 'wf', prefix: 'a', durSec: 5 }), false);
@@ -123,12 +123,13 @@ test('ingestAgent: plain agents of one session share the run group "s:<sid>" (di
   for (let i = 0; i < 20; i++) assert.equal(h.ingestAgent('sid1:a' + i, { kind: 'task', prefix: 'Explore', phase: null, model: 'm', proj: 'c--p', run: 's:sid1', durSec: 60 + i }), true);
   assert.equal(h.ingestAgent('sid2:a0', { kind: 'task', prefix: 'Explore', phase: null, model: 'm', proj: 'c--p', run: 's:sid2', durSec: 70 }), true);
   assert.deepEqual([...new Set(h.snapshot().agents.map(a => a.run))], ['s:sid1', 's:sid2']);
-  // a malformed group falls back to "its own run" instead of being stored verbatim
+  // eta.js therefore gives no estimate for 21 agents of two sessions (it needs >= 3 distinct sessions) ...
+  const input = { state: 'running', elapsedSec: 40, silentSec: 1, kind: 'task', label: 'x', agentType: 'Explore', project: 'c--p', siblingsDoneSec: [] };
+  assert.equal(estimateAgent(input, h.snapshot()).kind, 'unknown');
+  // ... a malformed group falls back to "its own run" instead of being stored verbatim, which is a third group
   assert.equal(h.ingestAgent('x1', { kind: 'task', prefix: 'Explore', run: 's:../../etc', durSec: 5 }), true);
   assert.equal(h.snapshot().agents[21].run, 'a:x1');
-  // the key history of eta.js therefore does not trigger for 20 agents of a single session (needs >= 8 distinct runs)
-  const e = estimateAgent({ state: 'running', elapsedSec: 40, silentSec: 1, kind: 'task', label: 'x', agentType: 'Explore', project: 'c--p', siblingsDoneSec: [] }, h.snapshot());
-  assert.equal(e.kind, 'unknown');
+  assert.notEqual(estimateAgent(input, h.snapshot()).kind, 'unknown');
 });
 
 test('ingestRun: records only done non-cached agents; labels, models and projects normalised; phase durations first start -> last end', () => {
@@ -194,10 +195,10 @@ test('snapshot: { agents, phaseDurSec }, frozen, the same object until the conte
   h.ingestRun('wf_aaa-111', run1(), 'p');   // duplicate: nothing changed, so same object
   assert.equal(h.snapshot(), s1);
   assert.deepEqual(Object.keys(s1).sort(), ['agents', 'phaseDurSec']);
-  for (const r of s1.agents) assert.deepEqual(Object.keys(r).sort(), ['dur', 'kind', 'model', 'phase', 'proj', 'prefix', 'run'].sort());
+  for (const r of s1.agents) assert.deepEqual(Object.keys(r).sort(), ['dur', 'kind', 'model', 'np', 'phase', 'pos', 'proj', 'prefix', 'run'].sort());
 });
 
-test('snapshot feeds eta.js: key range from ingested runs, workflow phase fallback from phaseDurSec', () => {
+test('snapshot feeds eta.js: agent history from ingested runs (phase size and position included), phase durations from phaseDurSec', () => {
   const h = new History(path.join(tmp(), 'h.json'));
   for (let r = 0; r < 10; r++) {
     const progress = [ph(1, 'Verify')];
@@ -206,23 +207,25 @@ test('snapshot feeds eta.js: key range from ingested runs, workflow phase fallba
   }
   assert.equal(h.stats().agents, 30); assert.equal(h.stats().phases, 10);
   const input = { state: 'running', elapsedSec: 100, silentSec: 1, kind: 'wf', label: 'verify:new', phase: 'Verify', model: 'x', project: 'c--proj-a', runId: 'new', siblingsDoneSec: [] };
-  const e = estimateAgent(input, h.snapshot());
-  assert.equal(e.kind, 'range'); assert.equal(e.basis, 'key'); assert.equal(e.n, 30); assert.equal(e.runs, 10); assert.match(e.text, /Min\./);
-  assert.equal(estimateAgent({ ...input, project: 'c--other' }, h.snapshot()).kind, 'unknown');
-  assert.equal(estimateWorkflow({ elapsedSec: 100, phasesAhead: 1, currentPhaseSiblingsDoneSec: [], currentPhaseElapsedSecs: [100], runPhaseDurSec: [] }, h.snapshot()).kind, 'unknown');   // 10 phases < 20
+  assert.ok(h.snapshot().agents.every(a => a.np === 3 && a.pos === 0), 'three agents in the single phase of each run');
+  const e = estimateAgent({ ...input, phaseSize: 3 }, h.snapshot());
+  assert.ok(['range', 'number'].includes(e.kind)); assert.equal(e.basis, 'history'); assert.equal(e.runs, 10); assert.match(e.text, /^Fertig in .*Min\./);
+  assert.match(e.tip, /Verlauf: 30 Agenten aus 10 Läufen/);
+  const w = estimateWorkflow({ elapsedSec: 100, phasesAhead: 1, phaseSize: 3, runningSec: [100], siblingsDoneSec: [], otherPhases: [] }, h.snapshot());   // 10 phases < 20: typical values for the phase ahead
+  assert.ok(['range', 'number'].includes(w.kind));
 });
 
 // ---------------------------------------------------------------------------------------------
 // persistence: atomic write, debounce, flush, reset
 // ---------------------------------------------------------------------------------------------
 
-test('flush: writes {v:1,...}, creates directories, leaves no temp files; a new instance reads it back', () => {
+test('flush: writes {v:2,...}, creates directories, leaves no temp files; a new instance reads it back', () => {
   const dir = tmp(); const file = path.join(dir, 'a', 'b', 'history.json');
   const h = new History(file); h.ingestRun('wf_aaa-111', run1(), 'C--Proj-A'); h.ingestAgent('s/a1', { kind: 'task', prefix: 'Explore', proj: 'p', durSec: 12 });
   h.flush();
   const j = JSON.parse(fs.readFileSync(file, 'utf8'));
   assert.deepEqual(Object.keys(j).sort(), ['agents', 'ingestedAgents', 'ingestedRuns', 'phaseDurSec', 'v']);
-  assert.equal(j.v, 1); assert.equal(j.agents.length, 6); assert.deepEqual(j.ingestedRuns, ['aaa-111']); assert.deepEqual(j.ingestedAgents, ['s/a1']);
+  assert.equal(j.v, 2); assert.equal(j.agents.length, 6); assert.deepEqual(j.ingestedRuns, ['aaa-111']); assert.deepEqual(j.ingestedAgents, ['s/a1']);
   assert.deepEqual(fs.readdirSync(path.dirname(file)), ['history.json']);
   const h2 = new History(file); h2.load(); assert.deepEqual(h2.snapshot(), h.snapshot());
   assert.equal(h2.ingestRun('wf_aaa-111', run1()), false); assert.equal(h2.ingestAgent('s/a1', { kind: 'task', prefix: 'x', durSec: 1 }), false);

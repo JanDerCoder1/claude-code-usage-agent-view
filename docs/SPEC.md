@@ -163,39 +163,47 @@ For workflow agents the journal is authoritative when present: `result` -> done,
 
 ---
 
-## 6. Remaining-time estimate (ETA) - honest by construction
+## 6. Remaining-time estimate (ETA), rewritten in v0.9.5
 
-Principle: a reliable per-agent ETA is not derivable from this history (see fact 13); the UI shows a number only in the narrow regime where it was measured to beat the prior, otherwise a coarse range, "laenger als ueblich", or "unbekannt". Seconds are never shown. The tested implementation is `scratchpad/estimate.js` (+ `estimate.test.js`, 25 tests pass [V]); copy it into `lib/eta.js` unchanged, then wire the inputs below.
+Principle: the chip names a SPAN in which comparable agents were measured to finish, wide where little is known and narrow where the evidence is good. It is never a single promise. Seconds are never shown. The old design (v0.1 to v0.9.4: median of the finished siblings, key history with hard thresholds, otherwise "unbekannt") was replaced after it was measured on the 82 workflow runs of the author: of the moments in which it showed a span at all (34 % of all moments), the agent was still running after the upper end 48 % of the time on screen; 60 % of the moments said "unbekannt".
 
-### 6.1 Inputs per running agent
-`{state:'running', elapsedSec, silentSec, kind:'wf'|'task', label, phase, model, project (lower-case encoded project dir), runId, agentType, siblingsDoneSec[]}`. `siblingsDoneSec` = durations (lastTs-firstTs)/1000 of agents of the same run AND same phase that are `done`, not `cached`. No ETA (`kind:'none'`) for queued/finished/failed/interrupted/stopped.
+### 6.1 What the data says (82 runs, 679 finished workflow agents; reproduce with `node tools/eta-eval.js`)
+* ln(duration) has a total spread of 0.9 to 1.2 whatever the label. Project, phase title and label prefix explain almost nothing of it.
+* Number of agents in the phase explains much: a phase with 1 agent has a median agent duration of 18 min, with 2-4 agents 8 min, 5-9 agents 5.5 min, 10 or more 1.7 min. Later phases are shorter than early ones.
+* The rest is shared inside one run: after phase size and position, the spread between runs is 0.87, between phases of one run 0.4, between agents of one run and phase 0.39. Finished siblings (and the earlier phases of the same run) therefore tell a lot, and the siblings that are still running are right-censored evidence (they last at least as long as they have run).
+* Tried and rejected: progress from the context size (the context is mostly the start prompt; final sizes of siblings differ by 0.17 only, no resolution), progress from tool calls (spread 0.34, as wide as the duration), model, project.
+* Phase durations (first start to last end): median 11.6 min, spread 0.93; 0.66 once the run effect of the earlier phases is known (slope 0.58). A declared phase that never starts is rare (1 of 161).
 
-### 6.2 Decision order and thresholds (`DEFAULTS`)
-1. `elapsed < 15 s` -> unknown (warm-up). `silent > 600 s` -> unknown "keine Aktivitaet" (stale).
-2. Siblings (>= 2 finished): survivors `R = {d - elapsed | d > elapsed}`. >= 2 survivors and `max-min <= max(45 s, 0.5*median)` -> **number** (`~N Min.`, `unter 1 Min.` below 45 s). Else >= 1 survivor -> **range** `[median/2, 2*median]`. No survivor (longer than every finished sibling) -> **late** "laenger als die anderen (meist < 4 Min. mehr)" (true remaining p25/p50/p75 = 30/78/210 s). Out-of-run accuracy: number MdAE 51 s (62 % within +-50 %), range covers 58 %, late range covers 49 %.
-3. No siblings: key history only if project+label-prefix has >= 15 agents from >= 8 distinct runs and >= 5 survivors beyond `elapsed` -> **range** `[q25,q75]` of the conditional remaining (covers ~47 %). Else global pool of the same kind needs >= 30 agents from >= 8 runs; it yields only a prior -> **unknown**, with `[q25,q75]` in the tooltip.
-4. `elapsed > p90` of the pool (global p90 = 870 s here) or < 5 survivors -> **late** "laenger als ueblich" (no number; true remaining there is still a median ~7 min).
-5. Task-style (Agent-tool) agents: history has 18-23 agents -> always "unbekannt".
+### 6.2 Model (`lib/etaModel.js`)
+`ln D = beta0 + beta1 * ln(agents started in the phase) + beta2 * phase position + u_run + v_phase + eps`, with `u ~ N(0, 0.75^2)`, `v ~ N(0, 0.45^2)`, `eps ~ N(0, 0.45^2)`. beta is fitted from the history (ridge regression toward the priors 7.0 / -0.55 / -0.6 with 10 pseudo-observations; the prior alone below 10 history agents). The posterior of theta = u + v of the current phase is computed on a grid of 101 points from the finished siblings (exact), the running siblings and the target itself (right-censored) and the earlier phases of the run (they inform u). The remaining time of the agent is the mixture over theta of truncated log-normals; quantiles by bisection. All of it is closed-form arithmetic with the standard normal CDF (Hart/West) and its inverse (Acklam plus one Halley step); no dependencies.
 
-Rounding for text: < 45 s "unter 1 Min."; < 10 min whole minutes; >= 10 min steps of 5. Ranges render `a-b Min.`; the chip says "grob" in its tooltip with `Basis: n fertige Geschwister` / `n Agenten aus m Laeufen` / `nur Erfahrungswert`.
+### 6.3 Agent level (`estimateAgent`)
+Input: `{state, elapsedSec, silentSec, kind, label, phase, model, project, runId, agentType, phaseSize, phasePos, siblingsDoneSec[], siblingsRunningSec[], otherPhases:[{size, pos, doneSec[]}]}`. `phaseSize` = agents started in the phase, `phasePos` = 0 (first) to 1 (last phase of the card).
+1. Not running -> `none`. `elapsed < 15 s` -> unknown "Dauer noch unbekannt". `silent > 600 s` -> unknown "keine Aktivität".
+2. Subagents of the Agent tool (`kind: 'task'`) have no phase and no siblings: log-normal of their own history, only with >= 8 finished subagents from >= 3 sessions (sd at least 0.9), else unknown "Dauer unbekannt".
+3. Otherwise the model above; `lo / mid / hi` = 20th / 50th / 85th percentile of the remaining time. If the probability that an agent like this lasts longer than it has run is below 10 %, the kind is `late` and the text starts with "länger als üblich:" (the span stays). A span narrower than a factor 1.6 (or 60 s) is shown as one number, kind `number`; else `range`.
+4. Text: "Fertig in ca. 3–25 Min." / "Fertig in unter 12 Min." / "Fertig in ca. 1–2,5 Std." (lower end rounded down, upper end up; steps of 1 min below 10, 5 below 30, 10 below 90, 30 above; hours only when even the lower end is an hour). `basis` is `siblings`, `run` (earlier phases only), `history` or `prior`; the tooltip says what the span is built on and how often it held.
 
-### 6.3 Workflow level
-`estimateWorkflowRemaining` (current phase from siblings, never 0, plus phases ahead x median finished phase duration of this run or history with >= 20 phases) always yields a **range** `[c/2, 2c]`, only if `c >= 30 s`, rendered "Rest grob: a-b Min." (hit rate 60 %; with >= 2 phases ahead it is unreliable: show it only when `nAhead <= 1`, otherwise "unbekannt"). Primary progress is always "Phase k/n" and "x/y Agenten fertig".
+### 6.4 Workflow level (`estimateWorkflow`)
+Remaining time = the slowest running agent of the current phase (maximum over the conditionally independent truncated log-normals of all running agents, Monte Carlo with 1200 deterministic samples) + every declared phase that has not started (ln duration = history mean or 6.55, plus 1.0 times the posterior run effect, spread 0.6 to 1.0 from the history). Span 20th to 90th percentile (the maximum of several agents is the heavy tail). Text "Fertig in ca. 20–60 Min."; "länger als üblich: ..." when the longest-running agent outlasts 9 of 10 comparable ones. No running agent and no phase ahead -> no chip. Phases ahead no longer make it "unbekannt".
 
-### 6.4 Cadence
-Recompute an agent's ETA when its sibling set changes or every 20 s; keep the previous text in between (no per-second countdown).
+### 6.5 Measured quality (`node tools/eta-eval.js`, each estimate knows only the runs before it, time-weighted = what is on screen)
+| | span shown | inside | above the span | below | median hi/lo |
+|---|---|---|---|---|---|
+| agent, v0.9.4 | 34 % of moments | 44 % | 48 % | 8 % | - |
+| agent, v0.9.5 | 94 % | 71 % | 10 % | 20 % | 7 |
+| workflow, v0.9.4 | 80 % | 47 % | 40 % | 13 % | - |
+| workflow, v0.9.5 | 99 % | 64 % | 9 % | 27 % | 4 |
+The tooltips quote these as "7 of 10 inside, 1 of 10 later, 2 of 10 earlier" (agent) and "6 / 1 / 3 of 10" (workflow). The spans are wide on purpose: duration is heavy-tailed, and even with perfect knowledge of the run the median error is a factor 1.6.
 
-### 6.5 Honesty labels (UI)
-number: `~N Min.` normal chip; range: `a-b Min.` dashed chip; late: amber outlined chip; unknown: muted `unbekannt` (tooltip may show the prior); stale: amber `keine Aktivitaet`. Tooltip always states basis and sample size.
-
-### 6.6 What the numbers mean
-All thresholds were tuned in-sample on 73 runs / 55 completed workflows from one user (leave-one-run-out and prequential checks, no held-out period). Effective sample size = distinct runs, not agents. A fresh install without history shows "unbekannt" almost everywhere; that is intended.
+### 6.6 Cadence
+Recompute an agent's ETA when its evidence changes (finished or running siblings, finished agents of other phases, phase size) or every 20 s; keep the previous text in between (no per-second countdown). The estimate is deterministic: the same input gives the same text.
 
 ### 6.7 History store (`lib/history.js`)
-File `globalStorageUri/history.json`, `{v:1, agents:[{kind,prefix,phase,model,proj,run,dur}], phaseDurSec:[], ingestedRuns:[], ingestedAgents:[]}`, atomic write (temp + rename), caps 3000 agents (~0.5 MB), 500 phases, 2000 ids. Bootstrap on first activation, in the background in batches: every `workflows/wf_*.json` -> records for `done`, non-cached agents (`durationMs/1000`) plus phase durations; plain agents from first/last line of finished files. Cost measured: 66 files, 7.5 MB, 81 ms, 569 agents; no transcript scan (the 5.3 s cold scan of 592 MB is unnecessary, C18). Afterwards ingest a run once when its result file appears and a plain agent once when it becomes `done`. Only successful agents are recorded. Command `agentView.resetEtaHistory` deletes the file.
+File `globalStorageUri/history.json`, `{v:2, agents:[{kind,prefix,phase,model,proj,run,dur,np,pos}], phaseDurSec:[], ingestedRuns:[], ingestedAgents:[]}`, atomic write (temp + rename), caps 3000 agents (~0.5 MB), 500 phases, 2000 ids. `np` = agents in the phase of that run, `pos` = position of the phase (0 to 1). A v1 file is dropped and rebuilt from the result files by the bootstrap (81 ms for 66 files). Bootstrap and live ingest as before: result files only, successful agents only, no transcript scan. Command `agentView.resetEtaHistory` deletes the file.
 
-### 6.8 Reserved for v1.1
-Calibration log `{basis, kind, lo, mid, hi, actualRemaining}` sampled every 60 s with automatic demotion number->range->unknown when the rolling 50 % coverage of a basis falls below 30 % over >= 50 samples.
+### 6.8 Reserved
+Calibration log with automatic widening when the rolling coverage falls below the promise; per-project offsets (the project effect is only 0.19 on this data).
 
 ---
 
@@ -484,3 +492,5 @@ Real-window behaviour of container, webview, variables and secondary side bar (f
 * **v0.9.3, kompakte Ansicht**: Nutzung als zwei Textzeilen (Label, Prozent, `Reset <Tag> <Uhrzeit> · noch <Dauer>`), der "Stand" steht rechts neben Hand-Off/Clear; die Tätigkeit eines laufenden Agenten ist genau eine Zeile (Ellipse, voller Text als Tooltip), Chips bleiben in derselben Zeile (`.line2` ohne Umbruch); kein Hover-Hintergrund auf Agentenzeilen, laufende Karten haben außer der Tätigkeit keine Tooltips.
 
 * **v0.9.4, eindeutige Statuspunkte**: ein Farbschema für die Punkte vor den Agenten, im Phasenkopf und in der Status-Pille. Fertig = grau ausgefüllt (`--av-muted`), laufend/wartend = blau ausgefüllt (pulsiert nur beim laufenden Agenten), noch nicht gelaufen = leerer blauer Kreis (`pending`), fehlgeschlagen = rot ausgefüllt, abgebrochen/gestoppt = leerer grauer Kreis. Die Sonderregel "fertig = blau" im Phasenkopf entfällt, Grün (`--av-ok`) gibt es nicht mehr; `.pill-ok` ist grau, `.pill-mute` hat einen hohlen Punkt. Eine Phase ohne Agenten zeigt einen leeren blauen Kreis (`phaseDotStates`). `background-clip: padding-box`, damit eine durchscheinende Theme-Farbe unter dem Rand nicht doppelt deckt.
+
+* **v0.9.5, Zeitschätzung neu**: Auswertung der 82 Workflow-Läufe des Autors (Abschnitt 6.1, `tools/eta-eval.js`) zeigte, dass die alte Schätzung bei Agenten, die laut Anzeige "Rest ~4 Min." hatten, in 48 % der Bildschirmzeit länger lief als die obere Grenze, und in 60 % der Momente nur "unbekannt" stand. Neu: hierarchisches Log-Normal-Modell mit Lauf- und Phaseneffekt (`lib/etaModel.js`), das fertige und noch laufende Geschwister sowie fertige Agenten früherer Phasen auswertet (Abschnitt 6.2); Beschriftung "Fertig in ca. X–Y Min." statt "Rest ~X Min." und "Rest grob: ..."; Anzeige in 94 % der Momente, der Agent läuft nur noch in 10 % der Bildschirmzeit über die obere Grenze (Workflow 9 %). Verlauf auf Format 2 (`np`, `pos`), `phaseDurSec` unverändert; die Eingaben des Sitzungsmodells heißen jetzt `phaseSize`, `phasePos`, `siblingsRunningSec`, `otherPhases` (Workflow: `runningSec`, `siblingsDoneSec`, `otherPhases`). Die alten Feldnamen `currentPhaseElapsedSecs` und `currentPhaseSiblingsDoneSec` werden weiter angenommen.

@@ -225,12 +225,16 @@ test('live run: phases, counters, header sums, start time, ETA inputs (SPEC 5.2 
   assert.equal(Math.round(inp.elapsedSec), 120);
   assert.equal(inp.silentSec, 2);
   assert.deepEqual(inp.siblingsDoneSec, []);                                    // no finished sibling in phase "Spec"
+  assert.deepEqual(inp.siblingsRunningSec, []);                                 // and no other running one
+  assert.deepEqual([inp.phaseSize, inp.phasePos], [1, 0.5]);                    // one agent started in the phase, second of three phases
+  assert.deepEqual(inp.otherPhases, [{ size: 2, pos: 0, doneSec: [200, 290] }]);  // what the finished phase "Research" tells about this run
   assert.equal(m.fake.wfCalls.length, 1);
   const w = m.fake.wfCalls[0].input;
   assert.equal(w.phasesAhead, 1);                                               // Critic has no slot yet
-  assert.deepEqual(w.currentPhaseSiblingsDoneSec, []);
-  assert.equal(w.currentPhaseElapsedSecs.length, 1);
-  assert.deepEqual(w.runPhaseDurSec, [300]);                                    // Research: first start -> last end
+  assert.deepEqual(w.siblingsDoneSec, []);
+  assert.equal(w.runningSec.length, 1);
+  assert.deepEqual([w.phaseSize, w.phasePos], [1, 0.5]);
+  assert.deepEqual(w.otherPhases, [{ size: 2, pos: 0, doneSec: [200, 290] }]);
   assert.equal(c.eta.kind, 'range');
   assert.equal(m.fake.wfCalls[0].hist.phaseDurSec.length, 0);                   // History.snapshot() reaches the estimator
 });

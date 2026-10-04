@@ -67,8 +67,8 @@
         "lo": 120,
         "mid": 300,
         "hi": 480,
-        "text": "2–8 Min.",
-        "tip": "Grobe Schätzung, die Spanne ist bewusst breit. Basis: 2 fertige Geschwister (gleiche Phase, gleicher Lauf)."
+        "text": "Fertig in ca. 2–8 Min.",
+        "tip": "Schätzung für die Restzeit, bewusst als Spanne. In unseren Tests waren vergleichbare Agenten in etwa 7 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 2 von 10 früher. Basis: 2 fertige Geschwister dieser Phase; Verlauf: 672 Agenten aus 82 Läufen."
        }
       },
       {
@@ -160,12 +160,12 @@
        "resultPreview": null,
        "eta": {
         "kind": "unknown",
-        "basis": "global",
+        "basis": "none",
         "lo": null,
         "mid": null,
         "hi": null,
-        "text": "unbekannt",
-        "tip": "nur Erfahrungswert: 2-9 Min. (n = 595 Agenten aus 55 Läufen)"
+        "text": "Dauer noch unbekannt",
+        "tip": "Der Agent ist gerade erst gestartet. Eine Schätzung folgt, sobald er etwas länger läuft."
        }
       },
       {
@@ -229,8 +229,8 @@
         "lo": 200,
         "mid": 240,
         "hi": 280,
-        "text": "~4 Min.",
-        "tip": "Basis: 3 fertige Geschwister (grob, getestet an 73 Läufen)"
+        "text": "Fertig in ca. 4 Min.",
+        "tip": "Näherung für die Restzeit: Die Vergleichswerte liegen eng zusammen. In unseren Tests waren vergleichbare Agenten in etwa 7 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 2 von 10 früher. Basis: 5 fertige Geschwister dieser Phase; 4 Geschwister laufen noch; Verlauf: 672 Agenten aus 82 Läufen."
        }
       },
       {
@@ -290,12 +290,12 @@
        "resultPreview": null,
        "eta": {
         "kind": "unknown",
-        "basis": "global",
+        "basis": "none",
         "lo": null,
         "mid": null,
         "hi": null,
-        "text": "unbekannt",
-        "tip": "nur Erfahrungswert: 2-9 Min. (n = 595 Agenten aus 55 Läufen)"
+        "text": "Dauer noch unbekannt",
+        "tip": "Der Agent ist gerade erst gestartet. Eine Schätzung folgt, sobald er etwas länger läuft."
        }
       }
      ]
@@ -365,8 +365,8 @@
         "lo": 200,
         "mid": 240,
         "hi": 280,
-        "text": "~4 Min.",
-        "tip": "Basis: 3 fertige Geschwister (grob, getestet an 73 Läufen)"
+        "text": "Fertig in ca. 4 Min.",
+        "tip": "Näherung für die Restzeit: Die Vergleichswerte liegen eng zusammen. In unseren Tests waren vergleichbare Agenten in etwa 7 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 2 von 10 früher. Basis: 5 fertige Geschwister dieser Phase; 4 Geschwister laufen noch; Verlauf: 672 Agenten aus 82 Läufen."
        }
       },
       {
@@ -426,12 +426,12 @@
        "resultPreview": null,
        "eta": {
         "kind": "unknown",
-        "basis": "global",
+        "basis": "none",
         "lo": null,
         "mid": null,
         "hi": null,
-        "text": "unbekannt",
-        "tip": "nur Erfahrungswert: 2-9 Min. (n = 595 Agenten aus 55 Läufen)"
+        "text": "Dauer noch unbekannt",
+        "tip": "Der Agent ist gerade erst gestartet. Eine Schätzung folgt, sobald er etwas länger läuft."
        }
       },
       {
@@ -491,12 +491,12 @@
        "resultPreview": null,
        "eta": {
         "kind": "unknown",
-        "basis": "global",
+        "basis": "none",
         "lo": null,
         "mid": null,
         "hi": null,
-        "text": "unbekannt",
-        "tip": "nur Erfahrungswert: 2-9 Min. (n = 595 Agenten aus 55 Läufen)"
+        "text": "Dauer noch unbekannt",
+        "tip": "Der Agent ist gerade erst gestartet. Eine Schätzung folgt, sobald er etwas länger läuft."
        }
       },
       {
@@ -739,11 +739,11 @@
        "eta": {
         "kind": "late",
         "basis": "siblings",
-        "lo": null,
-        "mid": null,
-        "hi": null,
-        "text": "länger als die anderen (meist < 4 Min. mehr)",
-        "tip": "Basis: 4 fertige Geschwister, dieser Agent läuft länger als alle"
+        "lo": 240,
+        "mid": 900,
+        "hi": 2400,
+        "text": "länger als üblich: ca. 4–40 Min.",
+        "tip": "Dieser Agent läuft schon länger als etwa 9 von 10 vergleichbaren Agenten. Die Spanne gilt trotzdem, ist aber breit, weil das Ende nicht absehbar ist. Basis: 4 fertige Geschwister dieser Phase; Verlauf: 672 Agenten aus 82 Läufen."
        }
       },
       {
@@ -807,8 +807,8 @@
         "lo": 120,
         "mid": 300,
         "hi": 480,
-        "text": "2–8 Min.",
-        "tip": "Grobe Schätzung, die Spanne ist bewusst breit. Basis: 2 fertige Geschwister (gleiche Phase, gleicher Lauf)."
+        "text": "Fertig in ca. 2–8 Min.",
+        "tip": "Schätzung für die Restzeit, bewusst als Spanne. In unseren Tests waren vergleichbare Agenten in etwa 7 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 2 von 10 früher. Basis: 2 fertige Geschwister dieser Phase; Verlauf: 672 Agenten aus 82 Läufen."
        }
       }
      ]
@@ -1018,8 +1018,8 @@
         "lo": 120,
         "mid": 300,
         "hi": 480,
-        "text": "2–8 Min.",
-        "tip": "Grobe Schätzung, die Spanne ist bewusst breit. Basis: 2 fertige Geschwister (gleiche Phase, gleicher Lauf)."
+        "text": "Fertig in ca. 2–8 Min.",
+        "tip": "Schätzung für die Restzeit, bewusst als Spanne. In unseren Tests waren vergleichbare Agenten in etwa 7 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 2 von 10 früher. Basis: 2 fertige Geschwister dieser Phase; Verlauf: 672 Agenten aus 82 Läufen."
        }
       },
       {
@@ -1083,8 +1083,8 @@
         "lo": 120,
         "mid": 300,
         "hi": 480,
-        "text": "2–8 Min.",
-        "tip": "Grobe Schätzung, die Spanne ist bewusst breit. Basis: 2 fertige Geschwister (gleiche Phase, gleicher Lauf)."
+        "text": "Fertig in ca. 2–8 Min.",
+        "tip": "Schätzung für die Restzeit, bewusst als Spanne. In unseren Tests waren vergleichbare Agenten in etwa 7 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 2 von 10 früher. Basis: 2 fertige Geschwister dieser Phase; Verlauf: 672 Agenten aus 82 Läufen."
        }
       }
      ]
@@ -1265,11 +1265,11 @@
        "eta": {
         "kind": "late",
         "basis": "siblings",
-        "lo": null,
-        "mid": null,
-        "hi": null,
-        "text": "länger als die anderen (meist < 4 Min. mehr)",
-        "tip": "Basis: 4 fertige Geschwister, dieser Agent läuft länger als alle"
+        "lo": 240,
+        "mid": 900,
+        "hi": 2400,
+        "text": "länger als üblich: ca. 4–40 Min.",
+        "tip": "Dieser Agent läuft schon länger als etwa 9 von 10 vergleichbaren Agenten. Die Spanne gilt trotzdem, ist aber breit, weil das Ende nicht absehbar ist. Basis: 4 fertige Geschwister dieser Phase; Verlauf: 672 Agenten aus 82 Läufen."
        }
       },
       {
@@ -1333,8 +1333,8 @@
         "lo": 200,
         "mid": 240,
         "hi": 280,
-        "text": "~4 Min.",
-        "tip": "Basis: 3 fertige Geschwister (grob, getestet an 73 Läufen)"
+        "text": "Fertig in ca. 4 Min.",
+        "tip": "Näherung für die Restzeit: Die Vergleichswerte liegen eng zusammen. In unseren Tests waren vergleichbare Agenten in etwa 7 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 2 von 10 früher. Basis: 5 fertige Geschwister dieser Phase; 4 Geschwister laufen noch; Verlauf: 672 Agenten aus 82 Läufen."
        }
       },
       {
@@ -1398,8 +1398,8 @@
         "lo": 200,
         "mid": 240,
         "hi": 280,
-        "text": "~4 Min.",
-        "tip": "Basis: 3 fertige Geschwister (grob, getestet an 73 Läufen)"
+        "text": "Fertig in ca. 4 Min.",
+        "tip": "Näherung für die Restzeit: Die Vergleichswerte liegen eng zusammen. In unseren Tests waren vergleichbare Agenten in etwa 7 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 2 von 10 früher. Basis: 5 fertige Geschwister dieser Phase; 4 Geschwister laufen noch; Verlauf: 672 Agenten aus 82 Läufen."
        }
       }
      ]
@@ -2513,25 +2513,25 @@
        "resultPreview": null,
        "eta": {
         "kind": "unknown",
-        "basis": "global",
+        "basis": "none",
         "lo": null,
         "mid": null,
         "hi": null,
-        "text": "unbekannt",
-        "tip": "nur Erfahrungswert: 2-9 Min. (n = 595 Agenten aus 55 Läufen)"
+        "text": "Dauer noch unbekannt",
+        "tip": "Der Agent ist gerade erst gestartet. Eine Schätzung folgt, sobald er etwas länger läuft."
        }
       }
      ]
     }
    ],
    "eta": {
-    "kind": "unknown",
+    "kind": "range",
     "basis": "phases",
-    "lo": null,
-    "mid": null,
-    "hi": null,
-    "text": "Rest unbekannt",
-    "tip": "Mehrere Phasen stehen noch aus. Dafür ist keine verlässliche Schätzung möglich."
+    "lo": 1800,
+    "mid": 3600,
+    "hi": 5400,
+    "text": "Fertig in ca. 30–90 Min.",
+    "tip": "Schätzung für den ganzen Workflow, bewusst als Spanne. In unseren Tests war ein Workflow in etwa 6 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 3 von 10 früher."
    }
   },
   {
@@ -2571,12 +2571,12 @@
     "resultPreview": null,
     "eta": {
      "kind": "unknown",
-     "basis": "global",
+     "basis": "none",
      "lo": null,
      "mid": null,
      "hi": null,
-     "text": "unbekannt",
-     "tip": "nur Erfahrungswert: 2-9 Min. (n = 595 Agenten aus 55 Läufen)"
+     "text": "Dauer noch unbekannt",
+     "tip": "Der Agent ist gerade erst gestartet. Eine Schätzung folgt, sobald er etwas länger läuft."
     }
    }
   },
@@ -2617,12 +2617,12 @@
     "resultPreview": null,
     "eta": {
      "kind": "unknown",
-     "basis": "global",
+     "basis": "none",
      "lo": null,
      "mid": null,
      "hi": null,
-     "text": "unbekannt",
-     "tip": "nur Erfahrungswert: 2-9 Min. (n = 595 Agenten aus 55 Läufen)"
+     "text": "Dauer noch unbekannt",
+     "tip": "Der Agent ist gerade erst gestartet. Eine Schätzung folgt, sobald er etwas länger läuft."
     }
    }
   },
@@ -2663,12 +2663,12 @@
     "resultPreview": null,
     "eta": {
      "kind": "unknown",
-     "basis": "global",
+     "basis": "none",
      "lo": null,
      "mid": null,
      "hi": null,
-     "text": "unbekannt",
-     "tip": "nur Erfahrungswert: 2-9 Min. (n = 595 Agenten aus 55 Läufen)"
+     "text": "Dauer noch unbekannt",
+     "tip": "Der Agent ist gerade erst gestartet. Eine Schätzung folgt, sobald er etwas länger läuft."
     }
    }
   }

@@ -11,7 +11,7 @@
     agentsDone: 'Agenten fertig', failedCount: 'fehlgeschlagen', phaseOf: 'Phase', phaseDone: 'fertig', of: 'von', noAgentsYet: 'Noch keine Agenten gestartet.',
     pillRunning: 'läuft', pillDone: 'fertig', pillFailed: 'Fehler', pillInterrupted: 'abgebrochen',
     pillStopped: 'gestoppt', pillWaiting: 'wartet',
-    attempt: 'Versuch', cached: 'aus Cache', rest: 'Rest', restRough: 'Rest grob:',
+    attempt: 'Versuch', cached: 'aus Cache',
     limit: 'Sitzungslimit erreicht', resets: 'Reset', failedPrefix: 'Fehler:', unknownError: 'unbekannt', status: 'Status',
     thinking: 'denkt nach …', writing: 'schreibt …', waiting: 'wartet …', parallel: 'parallel',
     result: 'Ergebnis', loadingFile: 'Datei wird noch gelesen',
@@ -197,11 +197,7 @@
     if (!text) return null;
     let cls = eta.kind === 'number' || eta.kind === 'range' || eta.kind === 'late' ? eta.kind : 'unknown';
     if (cls === 'unknown' && /keine\s+aktivit/i.test(text)) cls = 'stale';
-    let label = text;
-    if ((cls === 'number' || cls === 'range') && !/^rest/i.test(text)) {
-      label = (level === 'run' && cls === 'range' ? T.restRough : T.rest) + ' ' + text;
-    }
-    return { cls, text: label, tip: str(eta.tip) };
+    return { cls, text, tip: str(eta.tip) };   // the host writes the whole label ("Fertig in ca. 3–25 Min."), nothing is added here
   }
 
   function phaseSummary(phases) {

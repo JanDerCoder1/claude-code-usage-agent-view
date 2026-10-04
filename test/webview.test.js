@@ -251,48 +251,49 @@ test('failureText: 429 shows the limit and the reset, everything else Fehler: te
   assert.ok(long.endsWith('…'));
 });
 
-test('etaView renders the honesty labels of SPEC 6.5', () => {
+test('etaView passes the label of the host through unchanged and maps the kind to the chip class', () => {
   const E = (kind, text, tip) => ({ kind, basis: 'siblings', lo: null, mid: null, hi: null, text, tip: tip || '' });
-  assert.deepEqual(W.etaView(E('number', '~4 Min.', 'Basis'), 'agent'), { cls: 'number', text: 'Rest ~4 Min.', tip: 'Basis' });
-  assert.deepEqual(W.etaView(E('range', '2-8 Min.'), 'agent'), { cls: 'range', text: 'Rest 2-8 Min.', tip: '' });
-  assert.deepEqual(W.etaView(E('range', '8-30 Min.'), 'run'), { cls: 'range', text: 'Rest grob: 8-30 Min.', tip: '' });
-  assert.equal(W.etaView(E('range', 'Rest grob: 8-30 Min.'), 'run').text, 'Rest grob: 8-30 Min.'); // host already labelled it
-  assert.equal(W.etaView(E('late', 'länger als üblich'), 'agent').cls, 'late');
-  assert.equal(W.etaView(E('late', 'länger als üblich'), 'agent').text, 'länger als üblich');
-  assert.equal(W.etaView(E('unknown', 'unbekannt'), 'agent').cls, 'unknown');
-  assert.equal(W.etaView(E('unknown', 'keine Aktivität'), 'agent').cls, 'stale');
-  assert.equal(W.etaView(E('unknown', 'Keine Aktivität seit 12 Min.'), 'agent').cls, 'stale');
-  assert.equal(W.etaView(E('none', ''), 'agent'), null);
-  assert.equal(W.etaView(E('number', ''), 'agent'), null);
-  assert.equal(W.etaView(null, 'agent'), null);
-  assert.equal(W.etaView('x', 'agent'), null);
-  assert.equal(W.etaView(E('martian', 'huh'), 'agent').cls, 'unknown');
+  assert.deepEqual(W.etaView(E('number', 'Fertig in ca. 4 Min.', 'Basis')), { cls: 'number', text: 'Fertig in ca. 4 Min.', tip: 'Basis' });
+  assert.deepEqual(W.etaView(E('range', 'Fertig in ca. 2–8 Min.')), { cls: 'range', text: 'Fertig in ca. 2–8 Min.', tip: '' });
+  assert.deepEqual(W.etaView(E('range', 'Fertig in ca. 8–30 Min.'), 'run'), { cls: 'range', text: 'Fertig in ca. 8–30 Min.', tip: '' });
+  assert.equal(W.etaView(E('late', 'länger als üblich: ca. 4–40 Min.')).cls, 'late');
+  assert.equal(W.etaView(E('late', 'länger als üblich: ca. 4–40 Min.')).text, 'länger als üblich: ca. 4–40 Min.');
+  assert.equal(W.etaView(E('unknown', 'Dauer noch unbekannt')).cls, 'unknown');
+  assert.equal(W.etaView(E('unknown', 'keine Aktivität')).cls, 'stale');
+  assert.equal(W.etaView(E('unknown', 'Keine Aktivität seit 12 Min.')).cls, 'stale');
+  assert.equal(W.etaView(E('none', '')), null);
+  assert.equal(W.etaView(E('number', '')), null);
+  assert.equal(W.etaView(null), null);
+  assert.equal(W.etaView('x'), null);
+  assert.equal(W.etaView(E('martian', 'huh')).cls, 'unknown');
+  assert.ok(!/Rest/.test(JS.slice(JS.indexOf('function etaView'), JS.indexOf('function etaView') + 600)), 'the webview adds no "Rest" prefix any more');
 });
 
 // The chips must read right for what the host REALLY sends: feed the output of lib/eta.js (not hand-written strings) through etaView.
-test('etaView over real lib/eta.js output: every Eta kind, agent and run level (the "Rest " prefix is added exactly once)', () => {
+test('etaView over real lib/eta.js output: every Eta kind, agent and run level', () => {
   const eta = require('../lib/eta');
-  const A = (o) => Object.assign({ state: 'running', elapsedSec: 200, silentSec: 0, kind: 'wf', label: 'research:x', phase: 'Research', model: 'claude-sonnet-5-5', project: 'c--p', runId: 'wf_x', agentType: null, siblingsDoneSec: [] }, o);
-  const R = (o) => Object.assign({ elapsedSec: 300, phasesAhead: 0, currentPhaseSiblingsDoneSec: [], currentPhaseElapsedSecs: [], runPhaseDurSec: [] }, o);
+  const A = (o) => Object.assign({ state: 'running', elapsedSec: 200, silentSec: 0, kind: 'wf', label: 'research:x', phase: 'Research', model: 'claude-sonnet-5-5', project: 'c--p', runId: 'wf_x', agentType: null, phaseSize: 4, phasePos: 0.5, siblingsDoneSec: [], siblingsRunningSec: [], otherPhases: [] }, o);
+  const R = (o) => Object.assign({ elapsedSec: 300, phasesAhead: 0, phaseSize: 1, phasePos: 0, runningSec: [], siblingsDoneSec: [], otherPhases: [] }, o);
+  const tight = Array.from({ length: 8 }, (_, i) => 60 + i);
   const cases = [
-    // [what, Eta from the real module, level, expected chip class, expected chip text]
-    ['number', eta.estimateAgent(A({ siblingsDoneSec: [300, 320, 340, 150] }), null), 'agent', 'number', /^Rest ~\d+ Min\.$/],
-    ['number below a minute', eta.estimateAgent(A({ elapsedSec: 90, siblingsDoneSec: [100, 105, 110] }), null), 'agent', 'number', /^Rest unter 1 Min\.$/],
-    ['range', eta.estimateAgent(A({ elapsedSec: 150, siblingsDoneSec: [100, 300, 500] }), null), 'agent', 'range', /^Rest \d+–\d+ Min\.$/],
-    ['late (longer than siblings)', eta.estimateAgent(A({ elapsedSec: 400, siblingsDoneSec: [100, 110, 120] }), null), 'agent', 'late', /^länger als die anderen \(meist < \d+ Min\. mehr\)$/],
-    ['unknown (no basis)', eta.estimateAgent(A({ elapsedSec: 100 }), null), 'agent', 'unknown', /^unbekannt$/],
-    ['unknown (warm-up)', eta.estimateAgent(A({ elapsedSec: 5 }), null), 'agent', 'unknown', /^unbekannt$/],
-    ['stale', eta.estimateAgent(A({ elapsedSec: 400, silentSec: 700 }), null), 'agent', 'stale', /^keine Aktivität$/],
-    ['run range, host text already labelled', eta.estimateWorkflow(R({ elapsedSec: 700, phasesAhead: 1, currentPhaseElapsedSecs: [100], runPhaseDurSec: [600] }), null), 'run', 'range', /^Rest grob: \d+–\d+ Min\.$/],
-    ['run range below a minute', eta.estimateWorkflow(R({ elapsedSec: 200, currentPhaseSiblingsDoneSec: [250, 260], currentPhaseElapsedSecs: [200] }), null), 'run', 'range', /^Rest grob: bis ~\d+ Min\.$/],
-    ['run unknown', eta.estimateWorkflow(R({ phasesAhead: 2, currentPhaseElapsedSecs: [60, 60] }), null), 'run', 'unknown', /^Rest unbekannt$/],
+    // [what, Eta from the real module, expected chip class, expected chip text]
+    ['range (nothing known but the typical values)', eta.estimateAgent(A({ elapsedSec: 120 }), null), 'range', /^Fertig in (ca\. \d+–\d+ Min\.|unter \d+ Min\.)$/],
+    ['range with siblings', eta.estimateAgent(A({ elapsedSec: 150, phaseSize: 6, siblingsDoneSec: [100, 300, 500], siblingsRunningSec: [150, 150] }), null), 'range', /^Fertig in (ca\. \d+–\d+ Min\.|unter \d+ Min\.)$/],
+    ['number (siblings agree, narrow span)', eta.estimateAgent(A({ elapsedSec: 100, phaseSize: 10, siblingsDoneSec: tight, siblingsRunningSec: [100] }), null), 'number', /^Fertig in (ca\. \d+ Min\.|unter 1 Min\.)$/],
+    ['late (outlasts almost every comparable agent)', eta.estimateAgent(A({ elapsedSec: 40000, phaseSize: 1 }), null), 'late', /^länger als üblich: (ca\. [\d,]+–[\d,]+ (Min|Std)\.|unter \d+ Min\.)$/],
+    ['unknown (warm-up)', eta.estimateAgent(A({ elapsedSec: 5 }), null), 'unknown', /^Dauer noch unbekannt$/],
+    ['stale', eta.estimateAgent(A({ elapsedSec: 400, silentSec: 700 }), null), 'stale', /^keine Aktivität$/],
+    ['subagent without enough history', eta.estimateAgent({ state: 'running', elapsedSec: 100, kind: 'task', label: 'x', agentType: 'Explore', project: 'c--p' }, null), 'unknown', /^Dauer unbekannt$/],
+    ['run range', eta.estimateWorkflow(R({ elapsedSec: 700, phasesAhead: 1, runningSec: [100] }), null), 'range', /^Fertig in (ca\. \d+–\d+ (Min|Std)\.|unter \d+ Min\.)$/],
+    ['run late', eta.estimateWorkflow(R({ runningSec: [50000] }), null), 'late', /^länger als üblich: /],
+    ['run warm-up', eta.estimateWorkflow(R({ runningSec: [4] }), null), 'unknown', /^Dauer noch unbekannt$/],
   ];
-  for (const [what, e, level, cls, re] of cases) {
-    const v = W.etaView(e, level);
+  for (const [what, e, cls, re] of cases) {
+    const v = W.etaView(e, what.startsWith('run') ? 'run' : 'agent');
     assert.ok(v, what + ': a chip is rendered');
     assert.equal(v.cls, cls, what + ' class');
     assert.match(v.text, re, what + ' text');
-    assert.doesNotMatch(v.text, /Rest.*Rest|undefined|NaN|null|\d\s*s\b/, what + ': no doubled prefix, no junk, no seconds');
+    assert.doesNotMatch(v.text, /Rest|undefined|NaN|null|\d\s*s\b/, what + ': no junk, no seconds');
     assert.ok(v.tip.length > 0, what + ': the tooltip carries basis and caveat');
   }
   for (const state of ['done', 'failed', 'interrupted', 'stopped']) assert.equal(W.etaView(eta.estimateAgent(A({ state }), null), 'agent'), null, state + ': kind none renders no chip');

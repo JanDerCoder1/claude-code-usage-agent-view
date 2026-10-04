@@ -42,12 +42,12 @@
     "resultPreview": null,
     "eta": {
      "kind": "unknown",
-     "basis": "global",
+     "basis": "none",
      "lo": null,
      "mid": null,
      "hi": null,
-     "text": "unbekannt",
-     "tip": "nur Erfahrungswert: 2-9 Min. (n = 595 Agenten aus 55 Läufen)"
+     "text": "Dauer noch unbekannt",
+     "tip": "Der Agent ist gerade erst gestartet. Eine Schätzung folgt, sobald er etwas länger läuft."
     }
    }
   },

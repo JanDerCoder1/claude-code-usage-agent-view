@@ -528,7 +528,7 @@ test('df F1: the live card of a run shows the flag; the ETA still receives the b
   assert.equal(a.model.label, 'Opus 5 (1M)');
   assert.equal(a.model.id, 'claude-opus-5');
   assert.ok(calls.every((i) => !/\[1m\]/.test(i.model || '')));
-  assert.equal(eta.estimateAgent({ state: 'running', elapsedSec: 100, kind: 'wf', label: 'a:b', model: 'claude-opus-5[1m]' }, null).kind, 'unknown', 'a flagged model id does not break the estimate');
+  assert.notEqual(eta.estimateAgent({ state: 'running', elapsedSec: 100, kind: 'wf', label: 'a:b', model: 'claude-opus-5[1m]' }, null).kind, 'none', 'a flagged model id does not break the estimate');
 });
 
 // ================================================================ data-fidelity F3: token rule

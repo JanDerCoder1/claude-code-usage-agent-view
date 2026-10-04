@@ -120,8 +120,8 @@
         "lo": 200,
         "mid": 240,
         "hi": 280,
-        "text": "~4 Min.",
-        "tip": "Basis: 3 fertige Geschwister (grob, getestet an 73 Läufen)"
+        "text": "Fertig in ca. 4 Min.",
+        "tip": "Näherung für die Restzeit: Die Vergleichswerte liegen eng zusammen. In unseren Tests waren vergleichbare Agenten in etwa 7 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 2 von 10 früher. Basis: 5 fertige Geschwister dieser Phase; 4 Geschwister laufen noch; Verlauf: 672 Agenten aus 82 Läufen."
        }
       },
       {
@@ -157,8 +157,8 @@
         "lo": 120,
         "mid": 300,
         "hi": 480,
-        "text": "2–8 Min.",
-        "tip": "Grobe Schätzung, die Spanne ist bewusst breit. Basis: 2 fertige Geschwister (gleiche Phase, gleicher Lauf)."
+        "text": "Fertig in ca. 2–8 Min.",
+        "tip": "Schätzung für die Restzeit, bewusst als Spanne. In unseren Tests waren vergleichbare Agenten in etwa 7 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 2 von 10 früher. Basis: 2 fertige Geschwister dieser Phase; Verlauf: 672 Agenten aus 82 Läufen."
        }
       }
      ]
@@ -175,12 +175,12 @@
    ],
    "eta": {
     "kind": "range",
-    "basis": "siblings",
+    "basis": "phases",
     "lo": 180,
     "mid": 360,
     "hi": 540,
-    "text": "Rest grob: 3–9 Min.",
-    "tip": "Grobe Schätzung. Basis: restliche Zeit der aktuellen Phase plus 1 weitere Phase in typischer Länge."
+    "text": "Fertig in ca. 3–9 Min.",
+    "tip": "Schätzung für den ganzen Workflow, bewusst als Spanne. In unseren Tests war ein Workflow in etwa 6 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 3 von 10 früher."
    }
   }
  ],

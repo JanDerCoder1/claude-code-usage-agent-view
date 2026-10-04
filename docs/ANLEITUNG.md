@@ -11,6 +11,7 @@ Claude Code selbst bietet keine Schnittstelle, um Karten in seinen Chat einzubau
 - **Läuft**: jeder laufende Workflow als Karte mit Phasen (aufklappbar), den Agenten je Phase (Modell, Tokens, Zeit, Rest) und der aktuellen Tätigkeit (Werkzeug, Denken, Schreiben, Warten). Laufende Agenten ohne Workflow (Agent-Werkzeug) erscheinen als eigene Karte.
 - **Zuletzt fertig**: abgeschlossene, abgebrochene und fehlgeschlagene Läufe der letzten Stunden, einzeilig, per Klick aufklappbar.
 - **Status**: `läuft`, `fertig`, `Fehler`, `abgebrochen`, `gestoppt` (verwaist), `wartet` und `ruhig seit N Min.` (Hinweis, kein Beweis für einen Abbruch).
+- **Restzeit** je Agent und je Workflow als Spanne: "Fertig in ca. 3–25 Min.". Gemeint ist die Zeit, die noch fehlt, bis der Agent beziehungsweise der ganze Workflow fertig ist. Die Spanne ist so gewählt, dass nach unseren Messungen ein Agent in etwa 7 von 10 Fällen innerhalb davon fertig wird, in etwa 1 von 10 später und in etwa 2 von 10 früher (Workflow: 6, 1 und 3 von 10). Sie ist breit, wenn wenig bekannt ist, und wird enger, sobald Geschwister in derselben Phase fertig sind. "Fertig in unter 5 Min." heißt: höchstens knapp 5 Minuten. "länger als üblich: ca. 4–40 Min." (gelb) heißt: der Agent läuft schon länger als etwa 9 von 10 vergleichbaren Agenten, die Spanne gilt trotzdem weiter. Nach dem Start eines Agenten steht in den ersten Sekunden "Dauer noch unbekannt"; "keine Aktivität" erscheint, wenn über 10 Minuten nichts mehr in seine Datei geschrieben wurde.
 - **Punkte** vor den Agenten, im Kopf jeder Phase und in der Status-Pille haben überall dieselbe Bedeutung: **grau ausgefüllt** = fertig, **blau ausgefüllt** = läuft (pulsiert, solange der Agent arbeitet), **blauer leerer Kreis** = noch nicht gelaufen, **rot** = fehlgeschlagen, **grauer leerer Kreis** = abgebrochen oder gestoppt. Einen leeren blauen Kreis bekommt eine Phase, in der noch kein Agent gestartet ist; wie viele Agenten eine Phase insgesamt bekommt, steht nirgends in den Dateien von Claude Code, deshalb gibt es keine Platzhalter für einzelne noch nicht gestartete Agenten.
 - **Nutzung**: 5-Stunden-Limit und Wochenlimit mit verbrauchten Prozent, Reset-Zeitpunkt und Restzeit bis zum Reset. Die Zahlen stammen aus dem Zwischenspeicher, den Claude Code selbst pflegt. Damit sie frisch sind, führt Claude Code Utilities selbst den Claude-Code-Befehl `/usage` aus: beim Öffnen der Ansicht, danach alle 5 Minuten, solange sie sichtbar ist (`agentView.usage.autoRefreshMinutes`), und sofort über den Aktualisieren-Knopf. Während das läuft, steht "wird aktualisiert …" neben den Zahlen; sonst nennt die Ansicht das Alter ("Stand vor 12 Min."). Ist die Reset-Zeit eines Fensters schon vorbei, steht dort "zurückgesetzt" statt einer veralteten Zahl.
 - **Beschreibung**: Die Beschreibung eines Workflows steht ungekürzt direkt unter dem Titel; die Tätigkeit eines laufenden Agenten bleibt immer in einer Zeile (lange Texte enden mit „…“), der Tooltip zeigt den ganzen Text.
@@ -30,22 +31,22 @@ Claude Code selbst bietet keine Schnittstelle, um Karten in seinen Chat einzubau
 Die vier Befehle nacheinander im Hauptordner des Projekts ausführen, jeweils einzeln kopieren. Reihenfolge: bauen, Inhalt prüfen (erwartet: 0 CRC-Fehler und keine Namen mit Backslash), installieren, Installation prüfen.
 
 ```powershell
-node tools/build-vsix.js . dist/claude-code-usage-agent-view-0.9.4.vsix
+node tools/build-vsix.js . dist/claude-code-usage-agent-view-0.9.5.vsix
 ```
 
 ```powershell
-node tools/zip-list.js dist/claude-code-usage-agent-view-0.9.4.vsix
+node tools/zip-list.js dist/claude-code-usage-agent-view-0.9.5.vsix
 ```
 
 ```powershell
-code --install-extension dist/claude-code-usage-agent-view-0.9.4.vsix
+code --install-extension dist/claude-code-usage-agent-view-0.9.5.vsix
 ```
 
 ```powershell
 code --list-extensions --show-versions
 ```
 
-Die letzte Ausgabe der Liste sollte `local.claude-code-usage-agent-view@0.9.4` enthalten (die CLI gibt dabei eine harmlose DEP0169-Warnung aus). Danach in VS Code die Befehlspalette öffnen (Strg+Umschalt+P) und `Developer: Reload Window` ausführen. In der Aktivitätsleiste erscheint das Symbol "Claude Code Utilities", die Ansicht heißt "Agenten".
+Die letzte Ausgabe der Liste sollte `local.claude-code-usage-agent-view@0.9.5` enthalten (die CLI gibt dabei eine harmlose DEP0169-Warnung aus). Danach in VS Code die Befehlspalette öffnen (Strg+Umschalt+P) und `Developer: Reload Window` ausführen. In der Aktivitätsleiste erscheint das Symbol "Claude Code Utilities", die Ansicht heißt "Agenten".
 
 Gleiche Version erneut installieren ersetzt die vorhandene. Ein lokales Paket wird nicht automatisch aktualisiert: nach jeder Änderung `version` in `package.json` erhöhen, neu bauen und installieren (die README und die Tests verweisen auf den Dateinamen `claude-code-usage-agent-view-<Version>.vsix`).
 
@@ -70,7 +71,7 @@ Die sekundäre Seitenleiste lässt sich mit `View: Toggle Secondary Side Bar Vis
 Optional gibt es eine Paketvariante, die den Container von Anfang an in der sekundären Seitenleiste deklariert (benötigt VS Code ab 1.106; Bauen und Installieren sind geprüft, die Darstellung in einem echten Fenster noch nicht):
 
 ```powershell
-node tools/build-vsix.js . dist/claude-code-usage-agent-view-0.9.4-secondary.vsix --secondary
+node tools/build-vsix.js . dist/claude-code-usage-agent-view-0.9.5-secondary.vsix --secondary
 ```
 
 ## Befehle
@@ -112,7 +113,7 @@ Ist kein Ordner geöffnet, verhält sich die Ansicht wie `all`. Ohne Laufzeit-Ak
 - **Was nie gelesen wird:** das Haupt-Transkript einer Sitzung ohne Hand-Off (nur Änderungszeit per `stat`), Zugangsdaten, Schlüssel- und Sperrdateien. Von Ergebnissen erscheint höchstens eine Vorschau von 160 Zeichen, ausschließlich als Text.
 - **Nutzungsanzeige:** gelesen wird ausschließlich der Schlüssel `cachedUsageUtilization` aus `~/.claude.json` (bei gesetztem `CLAUDE_CONFIG_DIR` aus `<Verzeichnis>/.claude.json`), also Prozentwerte und Reset-Zeiten, die Claude Code selbst dort ablegt. Die Datei enthält auch anderes (Kontoangaben, Einstellungen); alles außer diesem Schlüssel wird sofort verworfen, nie angezeigt, protokolliert oder gespeichert. Es gibt keine Netzwerkabfrage, und Zugangsdaten (`.credentials.json`) werden nie gelesen. Abschalten mit `agentView.usage.enabled`.
 - **Das Protokoll (Ausgabe "Claude Code Utilities")** enthält nur Pfade und Anzahlen, nie Inhalte aus Transkripten.
-- **Einzige Datei, die die Erweiterung selbst schreibt:** `history.json` im Speicherordner der Erweiterung (von VS Code verwaltet). Sie enthält für die Restzeit-Schätzung zu jedem abgeschlossenen Agenten die Laufzeit **und Text**: den Namensanfang des Labels, den Phasentitel (klein geschrieben) und den Namen des Projektordners. Darin können Namen aus deinen Aufträgen stehen, etwa ein Kunde. Beim Start liest die Erweiterung im Hintergrund die Ergebnisdateien **aller** Projekte unter `~/.claude/projects` ein, unabhängig vom Filter `agentView.scope`. Die Datei verlässt den Rechner nicht, solange du den Speicherordner nicht selbst weitergibst. Löschen über `Claude Code Utilities: Zeitschätzungs-Verlauf löschen`.
+- **Einzige Datei, die die Erweiterung selbst schreibt:** `history.json` im Speicherordner der Erweiterung (von VS Code verwaltet). Sie enthält für die Restzeit-Schätzung zu jedem abgeschlossenen Agenten die Laufzeit **und Text**: den Namensanfang des Labels, den Phasentitel (klein geschrieben), den Namen des Projektordners, wie viele Agenten die Phase hatte und wo die Phase im Lauf stand. Darin können Namen aus deinen Aufträgen stehen, etwa ein Kunde. Beim Start liest die Erweiterung im Hintergrund die Ergebnisdateien **aller** Projekte unter `~/.claude/projects` ein, unabhängig vom Filter `agentView.scope`. Die Datei verlässt den Rechner nicht, solange du den Speicherordner nicht selbst weitergibst. Löschen über `Claude Code Utilities: Zeitschätzungs-Verlauf löschen`.
 - **Zustand der Ansicht:** damit die Ansicht nach dem Verbergen sofort wieder erscheint, sichert VS Code den zuletzt angezeigten Zustand im Arbeitsbereich-Speicher (Kartentitel, Labels, Ergebnisvorschauen von höchstens 160 Zeichen, das Claude-Verzeichnis und, solange `agentView.showToolTargets` an ist, Werkzeug-Ziele wie Befehle und Pfade). Das passiert in VS Code, nicht durch Dateizugriffe der Erweiterung; es wird beim nächsten Zustand überschrieben und vom Löschbefehl oben nicht erfasst.
 - Eine Datei aus der Ansicht im Dateimanager anzuzeigen ist nur für Pfade innerhalb des Claude-Verzeichnisses möglich; alles andere lehnt die Erweiterung ab.
 
@@ -127,7 +128,7 @@ Reihenfolge zum Sparen von Tokens: `/handoff`, dann `/clear`, dann den ausgegebe
 
 ## Bekannte Grenzen
 
-- **Die Restzeit ist grob.** Wie lange ein einzelner Agent noch braucht, ist aus den Dateien kaum ableitbar: die verbleibende Zeit hängt kaum davon ab, wie lange er schon läuft. Belastbar ist nur der Vergleich mit bereits fertigen Agenten derselben Phase; sonst zeigt die Karte eine weite Spanne, "länger als üblich" oder nichts. Die Schätzung wird mit der Zeit besser, weil abgeschlossene Läufe in den Verlauf eingehen.
+- **Die Restzeit ist eine Spanne, keine Zusage.** Wie lange ein Agent braucht, streut stark: schon der Unterschied zwischen zwei Läufen beträgt typischerweise den Faktor 2 bis 3, und der Zeitpunkt, an dem der Agent endet, lässt sich aus den Dateien nicht ablesen. Das Modell nutzt, was sich messen ließ: wie viele Agenten die Phase hat, wo sie im Lauf steht, wie schnell die fertigen und die noch laufenden Geschwister und die früheren Phasen desselben Laufs waren und den eigenen Verlauf. Den Rest gleicht die breite Spanne aus. Auf den 82 Läufen des Autors lag der Rest in etwa jedem zehnten Fall über der oberen Grenze. Wie gut die Schätzung auf deinen eigenen Läufen ist, misst `node tools/eta-eval.js` (im Projektordner, liest `~/.claude`, ändert nichts). Ohne eigenen Verlauf nutzt die Schätzung Erfahrungswerte aus den Läufen des Autors; mit jedem abgeschlossenen Lauf rechnet sie stärker mit deinen Werten.
 - **Tokens sind die Kontextgröße, nicht die kumulierte Summe.** Die Zahl entspricht dem Kontextfenster der letzten Anfrage eines Agenten (so zeigt es auch die Claude-Desktop-Karte); die Summe in der Kopfzeile ist die Summe dieser Werte. Sie liegt rund ein Prozent unter den Werten der Benachrichtigungen von Claude Code, die einen anderen Zähler verwenden.
 - **Die Nutzungszahlen sind so frisch wie der letzte `/usage`-Lauf.** Der Lauf dauert einige Sekunden (hier 4 bis 18); schlägt er fehl (etwa weil die Claude-Code-Erweiterung fehlt oder nicht angemeldet ist), bleibt es bei den alten Zahlen, das Alter steht daneben, und ein abgelaufenes Fenster zeigt "zurückgesetzt". Mehrere VS-Code-Fenster starten je ihren eigenen Lauf.
 - **Clear wirkt auf den Chat, den Claude Code als aktiv ansieht.** Bei mehreren offenen Chats ist das der zuletzt benutzte; ob der Knopf in jeder Anordnung den richtigen trifft, ist nicht geprüft. Eine laufende Antwort wird dabei nicht abgebrochen, wenn Claude Code sie im Hintergrund weiterführt; das habe ich nicht getestet.

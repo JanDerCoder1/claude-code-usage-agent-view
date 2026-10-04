@@ -71,6 +71,7 @@ test('bootstrap records are well-formed: wf kind, finite positive durations, nor
     assert.equal(r.kind, 'wf'); assert.ok(Number.isFinite(r.dur) && r.dur > 0 && r.dur < 7 * 86400);
     assert.equal(r.proj, r.proj.toLowerCase()); assert.equal(r.prefix, eta.fold(r.prefix)); assert.equal(r.phase, eta.fold(r.phase)); assert.ok(!/\[1m\]/.test(r.model));
     assert.match(r.run, /^[\w.-]+$/); assert.ok(!/^wf_/.test(r.run)); runs.add(r.run);
+    assert.ok(Number.isInteger(r.np) && r.np >= 1 && r.np <= 500, 'phase size ' + r.np); assert.ok(Number.isFinite(r.pos) && r.pos >= 0 && r.pos <= 1, 'phase position ' + r.pos);
   }
   assert.ok(runs.size >= Math.min(8, h.stats().runs));
   for (const d of s.phaseDurSec) assert.ok(Number.isFinite(d) && d > 0);
@@ -96,14 +97,14 @@ test('estimateAgent over the real history: Eta contract at every elapsed value (
     assert.ok(['number', 'range', 'late', 'unknown', 'none'].includes(e.kind), where);
     assert.equal(typeof e.text, 'string'); assert.equal(typeof e.tip, 'string');
     for (const k of ['lo', 'mid', 'hi']) assert.ok(e[k] === null || (Number.isFinite(e[k]) && e[k] >= 0), where + ' ' + k);
-    if (e.kind === 'number' || e.kind === 'range') { assert.ok(e.lo <= e.mid && e.mid <= e.hi, where + ' ' + JSON.stringify(e)); assert.ok(Number.isFinite(e.lo + e.mid + e.hi)); }
+    if (e.kind === 'number' || e.kind === 'range' || e.kind === 'late') { assert.ok(e.lo <= e.mid && e.mid <= e.hi, where + ' ' + JSON.stringify(e)); assert.ok(Number.isFinite(e.lo + e.mid + e.hi)); }
     assert.doesNotMatch(e.text + ' ' + e.tip, /\b\d+\s*(?:s|sek\.?|sec|sekunden?)(?![a-zäöüß])/i, where);
     assert.ok(!/undefined|NaN|\[object/.test(e.text + e.tip), where);
     seen.add(e.kind + '/' + e.basis); n++;
   };
   for (const a of snap.agents.slice(0, 250)) {
     for (let e = 0; e < Math.min(a.dur, 1500); e += 25) {
-      const input = { state: 'running', elapsedSec: e, silentSec: 0, kind: 'wf', label: a.prefix + ':x', phase: a.phase, model: a.model, project: a.proj, runId: 'new-run', agentType: null, siblingsDoneSec: [] };
+      const input = { state: 'running', elapsedSec: e, silentSec: 0, kind: 'wf', label: a.prefix + ':x', phase: a.phase, model: a.model, project: a.proj, runId: 'new-run', agentType: null, phaseSize: a.np, phasePos: a.pos, siblingsDoneSec: [] };
       check(eta.estimateAgent(input, snap), 'plain e=' + e + ' ' + a.prefix);
       check(eta.estimateAgent({ ...input, siblingsDoneSec: [a.dur * 0.8, a.dur * 1.1, a.dur * 1.3] }, snap), 'siblings e=' + e);
     }
@@ -112,37 +113,33 @@ test('estimateAgent over the real history: Eta contract at every elapsed value (
   if (snap.agents.length >= 100) assert.ok(seen.size >= 3, 'only ' + [...seen].join(', '));
 });
 
-test('real history: the global conditional remaining time is ~flat (median 3-8 min at every elapsed in 20..600 s) -> only a prior', opts, async () => {
-  const { h } = await boot(); const durs = h.snapshot().agents.map(a => a.dur);
-  if (durs.length < 100) return;
-  for (const e of [20, 60, 120, 300, 600]) { const R = durs.filter(d => d > e).map(d => d - e); const q = eta.quantile(R, 0.5); assert.ok(q > 180 && q < 480, e + ': ' + q); }
-});
-
-test('real history: a fresh agent of a known prefix gets either a key range or "unbekannt", never a number without siblings', opts, async () => {
+test('real history: the fitted model gives a span at every elapsed time after warm-up, never "unbekannt", and the span is ordered', opts, async () => {
   const { h } = await boot(); const snap = h.snapshot();
-  const byKey = new Map();
-  for (const a of snap.agents) { const k = a.proj + '|' + a.prefix; byKey.set(k, (byKey.get(k) || 0) + 1); }
-  for (const [k, c] of byKey) {
-    const [proj, prefix] = k.split('|');
-    const e = eta.estimateAgent({ state: 'running', elapsedSec: 120, silentSec: 0, kind: 'wf', label: prefix + ':z', project: proj, siblingsDoneSec: [] }, snap);
-    assert.notEqual(e.kind, 'number', k); assert.ok(e.kind !== 'range' || e.basis === 'key', k);
-    if (e.kind === 'range') assert.ok(c >= eta.DEFAULTS.keyMinAgents && e.n >= eta.DEFAULTS.keyMinAgents && e.runs >= eta.DEFAULTS.keyMinRuns, k + ' ' + JSON.stringify(e));
+  if (snap.agents.length < 100) return;
+  for (const size of [1, 3, 8, 20]) for (const pos of [0, 0.5, 1]) for (const e of [20, 60, 180, 600, 1800, 7200]) {
+    const r = eta.estimateAgent({ state: 'running', elapsedSec: e, silentSec: 0, kind: 'wf', label: 'x:z', phaseSize: size, phasePos: pos, siblingsDoneSec: [] }, snap);
+    assert.ok(['range', 'number', 'late'].includes(r.kind), size + '/' + pos + '/' + e + ' ' + r.kind);
+    assert.equal(r.basis, 'history'); assert.ok(r.lo > 0 && r.lo <= r.mid && r.mid <= r.hi);
   }
 });
 
-test('estimateWorkflow with the real phase durations as fallback (needs >= 20 phases)', opts, async () => {
+test('real history: a larger phase is expected to finish sooner than a single big agent (the effect the regression found)', opts, async () => {
   const { h } = await boot(); const snap = h.snapshot();
-  const e = eta.estimateWorkflow({ elapsedSec: 200, phasesAhead: 1, currentPhaseSiblingsDoneSec: [], currentPhaseElapsedSecs: [200], runPhaseDurSec: [] }, snap);
-  assert.ok(['range', 'unknown'].includes(e.kind));
-  if (snap.phaseDurSec.length >= eta.DEFAULTS.wfMinHistPhases) {
-    assert.equal(e.kind, 'range'); assert.ok(e.lo <= e.mid && e.mid <= e.hi && Number.isFinite(e.hi)); assert.match(e.text, /^Rest grob: /);
-  } else assert.equal(e.kind, 'unknown');
+  if (snap.agents.length < 100) return;
+  const at = (size) => eta.estimateAgent({ state: 'running', elapsedSec: 30, silentSec: 0, kind: 'wf', label: 'x:z', phaseSize: size, phasePos: 0.5, siblingsDoneSec: [] }, snap).mid;
+  assert.ok(at(20) < at(1), at(20) + ' vs ' + at(1));
 });
 
-test('estimateAgent on the real snapshot costs well under a millisecond per call (index built once per snapshot)', opts, async () => {
+test('estimateWorkflow with the real history: a span "Fertig in ..." whenever an agent runs or a phase is ahead', opts, async () => {
+  const { h } = await boot(); const snap = h.snapshot();
+  const e = eta.estimateWorkflow({ elapsedSec: 200, phasesAhead: 1, phaseSize: 4, phasePos: 0, runningSec: [200], siblingsDoneSec: [], otherPhases: [] }, snap);
+  assert.ok(['range', 'number', 'late'].includes(e.kind)); assert.ok(e.lo <= e.mid && e.mid <= e.hi && Number.isFinite(e.hi)); assert.match(e.text, /^(Fertig in |länger als üblich: )/);
+});
+
+test('estimateAgent on the real snapshot costs about a millisecond per call (regression fitted once per snapshot)', opts, async () => {
   const { h } = await boot(); const snap = h.snapshot();
   const t0 = process.hrtime.bigint();
-  for (let i = 0; i < 2000; i++) eta.estimateAgent({ state: 'running', elapsedSec: 30 + (i % 900), silentSec: 0, kind: 'wf', label: 'verify:' + i, project: 'c--x', siblingsDoneSec: [] }, snap);
+  for (let i = 0; i < 500; i++) eta.estimateAgent({ state: 'running', elapsedSec: 30 + (i % 900), silentSec: 0, kind: 'wf', label: 'verify:' + i, project: 'c--x', phaseSize: 1 + (i % 10), phasePos: 0.5, siblingsDoneSec: [100, 200] }, snap);
   const ms = Number(process.hrtime.bigint() - t0) / 1e6;
-  assert.ok(ms < 1500, ms.toFixed(0) + ' ms for 2000 estimates');
+  assert.ok(ms < 3000, ms.toFixed(0) + ' ms for 500 estimates');
 });

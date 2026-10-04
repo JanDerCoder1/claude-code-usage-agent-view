@@ -229,7 +229,7 @@ test('docs/ANLEITUNG.md is German, lists the settings, the commands and the priv
   assert.match(md, /Nur lesend/);
   assert.match(md, /kein Netzwerk/);
   assert.match(md, /Kontextgröße, nicht die kumulierte Summe/);
-  assert.match(md, /Die Restzeit ist grob/);
+  assert.match(md, /Die Restzeit ist eine Spanne, keine Zusage/);
   assert.ok(!/jans[m]|Unternehmung/.test(md), 'no personal paths in a document that goes public');
 });
 

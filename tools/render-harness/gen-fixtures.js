@@ -18,10 +18,10 @@ const eta = (kind, text, tip, basis, lo, mid, hi) => ({
   kind, basis: basis || 'none', lo: lo === undefined ? null : lo, mid: mid === undefined ? null : mid, hi: hi === undefined ? null : hi, text, tip,
 });
 const ETA = {
-  number: eta('number', '~4 Min.', 'Basis: 3 fertige Geschwister (grob, getestet an 73 Läufen)', 'siblings', 200, 240, 280),
-  range: eta('range', '2–8 Min.', 'Grobe Schätzung, die Spanne ist bewusst breit. Basis: 2 fertige Geschwister (gleiche Phase, gleicher Lauf).', 'siblings', 120, 300, 480),
-  late: eta('late', 'länger als die anderen (meist < 4 Min. mehr)', 'Basis: 4 fertige Geschwister, dieser Agent läuft länger als alle', 'siblings'),
-  unknown: eta('unknown', 'unbekannt', 'nur Erfahrungswert: 2-9 Min. (n = 595 Agenten aus 55 Läufen)', 'global'),
+  number: eta('number', 'Fertig in ca. 4 Min.', 'Näherung für die Restzeit: Die Vergleichswerte liegen eng zusammen. In unseren Tests waren vergleichbare Agenten in etwa 7 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 2 von 10 früher. Basis: 5 fertige Geschwister dieser Phase; 4 Geschwister laufen noch; Verlauf: 672 Agenten aus 82 Läufen.', 'siblings', 200, 240, 280),
+  range: eta('range', 'Fertig in ca. 2–8 Min.', 'Schätzung für die Restzeit, bewusst als Spanne. In unseren Tests waren vergleichbare Agenten in etwa 7 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 2 von 10 früher. Basis: 2 fertige Geschwister dieser Phase; Verlauf: 672 Agenten aus 82 Läufen.', 'siblings', 120, 300, 480),
+  late: eta('late', 'länger als üblich: ca. 4–40 Min.', 'Dieser Agent läuft schon länger als etwa 9 von 10 vergleichbaren Agenten. Die Spanne gilt trotzdem, ist aber breit, weil das Ende nicht absehbar ist. Basis: 4 fertige Geschwister dieser Phase; Verlauf: 672 Agenten aus 82 Läufen.', 'siblings', 240, 900, 2400),
+  unknown: eta('unknown', 'Dauer noch unbekannt', 'Der Agent ist gerade erst gestartet. Eine Schätzung folgt, sobald er etwas länger läuft.', 'none'),
   stale: eta('unknown', 'keine Aktivität', 'Seit mehr als 10 Minuten keine neue Zeile im Protokoll', 'none'),
   none: eta('none', '', '', 'none'),
 };
@@ -73,7 +73,7 @@ function wfRunning() {
   const a = workflow({
     runId: 'wf_5281790c-ce8', name: 'agent-rail-research',
     description: 'Parallele Recherche der Schnittstellen-Fakten, die für eine Live-Anzeige der Agenten als Karten nötig sind: Laufzeit, verbrauchte Tokens, geschätzte Restzeit und die aktuelle Tätigkeit jedes Agenten.\nVier Leser prüfen je ein Gebiet; danach vergleicht ein Kritiker die Berichte gegeneinander und schreibt die Bauanleitung.',
-    status: 'running', startedAt: NOW - (6 * MIN + 12 * SEC), eta: eta('range', 'Rest grob: 8–30 Min.', 'Grobe Schätzung. Basis: restliche Zeit der aktuellen Phase plus 1 weitere Phase in typischer Länge. Trefferquote nur etwa 60 %.', 'phases', 480, 900, 1800),
+    status: 'running', startedAt: NOW - (6 * MIN + 12 * SEC), eta: eta('range', 'Fertig in ca. 8–30 Min.', 'Schätzung für den ganzen Workflow, bewusst als Spanne. In unseren Tests war ein Workflow in etwa 6 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 3 von 10 früher. Berechnet aus: der langsamste noch laufende Agent der aktuellen Phase plus 1 Phase, die noch nicht begonnen hat. Basis: Verlauf: 672 Agenten aus 82 Läufen.', 'phases', 480, 900, 1800),
   }, [
     phase('Research', 'Fakten zur Plugin-API sammeln', [
       live('research:usage', 'Research', 6 * MIN + 12 * SEC, 95900, 14, { kind: 'tool', tool: 'Grep', target: 'C:/Users/user/.claude/projects/my-project/e5ce9d45-addc-4585-9608-4c76c0596a7b/subagents/workflows/wf_5281790c-ce8/journal.jsonl', running: true }, ETA.number),
@@ -263,7 +263,7 @@ function manyCards() {
   bigPhase.done = 45;
   const bigCard = workflow({ runId: 'wf_big', key: 'many:big', name: 'verify:big-batch', status: 'running', startedAt: NOW - 90 * MIN }, [bigPhase, phase('Merge', null, [live('merge:all', 'Merge', 3 * MIN, 52000, 11, { kind: 'thinking', running: true }, ETA.unknown)])]);
   bigCard.agentsTotal = 46;
-  bigCard.eta = eta('unknown', 'Rest unbekannt', 'Mehrere Phasen stehen noch aus. Dafür ist keine verlässliche Schätzung möglich.', 'phases');
+  bigCard.eta = eta('range', 'Fertig in ca. 30–90 Min.', 'Schätzung für den ganzen Workflow, bewusst als Spanne. In unseren Tests war ein Workflow in etwa 6 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 3 von 10 früher.', 'phases', 1800, 3600, 5400);
   running.push(bigCard);
   for (let i = 0; i < 3; i++) {
     running.push(taskCard(agent({ label: 'Subagent task ' + i, agentType: pick(['Explore', 'general-purpose', 'Plan']), shape: pick(['background', 'foreground']), model: pick([HAIKU, SONNET]), state: 'running', tokens: 20000 + i * 7000, toolUses: 3 + i, startedAt: NOW - (i + 1) * 70 * SEC, quietSec: 4, activity: { kind: 'tool', tool: 'Read', target: 'docs/SPEC.md', running: true }, eta: ETA.unknown })));
@@ -282,7 +282,7 @@ function readmeView() {
     runId: 'wf_5281790c-ce8', name: 'agent-rail-research',
     description: 'Parallele Recherche der Schnittstellen-Fakten, die für eine Live-Anzeige der Agenten als Karten nötig sind. Vier Leser prüfen je ein Gebiet, danach vergleicht ein Kritiker die Berichte.',
     status: 'running', startedAt: NOW - (9 * MIN + 12 * SEC),
-    eta: eta('range', 'Rest grob: 3–9 Min.', 'Grobe Schätzung. Basis: restliche Zeit der aktuellen Phase plus 1 weitere Phase in typischer Länge.', 'siblings', 180, 360, 540),
+    eta: eta('range', 'Fertig in ca. 3–9 Min.', 'Schätzung für den ganzen Workflow, bewusst als Spanne. In unseren Tests war ein Workflow in etwa 6 von 10 Fällen innerhalb dieser Spanne fertig, in etwa 1 von 10 später und in etwa 3 von 10 früher.', 'phases', 180, 360, 540),
   }, [
     phase('Research', 'Fakten zur Plugin-API sammeln', [
       done('research:usage', 'Research', 8 * MIN + 2 * SEC, 70 * SEC, 241600, 61),
