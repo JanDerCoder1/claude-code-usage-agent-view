@@ -2,7 +2,7 @@
   "name": "claude-code-usage-agent-view",
   "displayName": "Claude Code Utilities",
   "description": "Zeigt laufende Claude-Code-Agenten und Workflows als Karten, dazu das 5-Stunden- und das Wochenlimit; auch in einem eigenen kleinen Fenster. Mit Hand-Off (Kontext in eine Markdown-Datei) und Clear (neue Unterhaltung); nur lesend gegenüber ~/.claude, nur lokale Dateien.",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "publisher": "local",
   "license": "MIT",
   "private": true,

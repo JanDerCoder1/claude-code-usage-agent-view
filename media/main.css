@@ -2,7 +2,6 @@
    extra code. Unlayered rules beat VS Code's own webview defaults (they sit in @layer vscode-default). */
 :root {
   --av-accent: var(--vscode-charts-blue);
-  --av-ok: var(--vscode-charts-green);
   --av-err: var(--vscode-charts-red);
   --av-warn: var(--vscode-charts-yellow);
   --av-muted: var(--vscode-descriptionForeground);
@@ -192,7 +191,8 @@ button:focus-visible { outline: 1px solid var(--vscode-focusBorder); outline-off
 .pill::before { content: ""; flex: none; width: 0.5em; height: 0.5em; border-radius: 50%; background: var(--c); }
 .pill-run { --c: var(--av-accent); }
 .pill-wait { --c: var(--av-accent); }
-.pill-ok { --c: var(--av-ok); }
+.pill-ok { --c: var(--av-muted); }                  /* finished = grey, like the dots */
+.pill-mute::before { background: transparent; border: 1.5px solid var(--c); box-sizing: border-box; }   /* interrupted/stopped: hollow, like the dots */
 .pill-err { --c: var(--av-err); }
 .pill-warn { --c: var(--av-warn); }
 body.vscode-high-contrast .pill,
@@ -258,7 +258,9 @@ body.vscode-high-contrast-light .phase-head { border-color: var(--vscode-contras
 .dots:empty { display: none; }
 .phase-body { padding: 4px 0 2px 6px; }
 
-/* status dot: also the first column of every agent row (SPEC 5.3) */
+/* status dot: also the first column of every agent row (SPEC 5.3). One colour language for the rows and the phase header:
+   done = filled grey, running/waiting = filled blue (pulsing while it runs), not yet run = hollow blue,
+   failed = filled red, interrupted/stopped = hollow grey. */
 .dot {
   flex: none;
   width: 8px;
@@ -266,12 +268,12 @@ body.vscode-high-contrast-light .phase-head { border-color: var(--vscode-contras
   border-radius: 50%;
   border: 1.5px solid var(--av-muted);
   background: transparent;
+  background-clip: padding-box;   /* a translucent theme colour must not double up under the border */
 }
-.dot[data-s="done"] { border-color: var(--av-ok); background: var(--av-ok); }
-.dot[data-s="failed"] { border-color: var(--av-err); background: var(--av-err); }
-.dot[data-s="running"], .dot[data-s="waiting"] { border-color: var(--av-accent); }
-.dot[data-s="pending"] { border-style: dotted; opacity: 0.7; }
-.dots .dot[data-s="done"] { border-color: var(--av-accent); background: var(--av-accent); }
+.dot[data-s="done"] { border-color: var(--av-muted); background-color: var(--av-muted); }
+.dot[data-s="failed"] { border-color: var(--av-err); background-color: var(--av-err); }
+.dot[data-s="running"], .dot[data-s="waiting"] { border-color: var(--av-accent); background-color: var(--av-accent); }
+.dot[data-s="pending"] { border-color: var(--av-accent); }
 @media (prefers-reduced-motion: no-preference) {
   body:not(.vscode-reduce-motion) .dot[data-s="running"] { animation: av-pulse 1.6s ease-in-out infinite; }
 }

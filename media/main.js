@@ -137,6 +137,9 @@
 
   const KNOWN_STATES = ['running', 'waiting', 'done', 'failed', 'interrupted', 'stopped'];
   const dotState = (a) => (isObj(a) && KNOWN_STATES.includes(a.state) ? a.state : 'pending');
+  // Dots in a phase header: one per started agent. A phase without any agent has not run yet and gets one hollow "not yet run" dot
+  // (the planned number of agents is not recorded in the files, so a whole unstarted phase is the only place where this can be shown).
+  const phaseDotStates = (ph) => (isObj(ph) && arr(ph.agents).length ? arr(ph.agents).map(dotState) : ['pending']);
 
   const isQuiet = (a) => isLive(a.state) && num(a.quietSec) > QUIET_SEC;
 
@@ -657,9 +660,10 @@
       setText(p.count, ph.state === 'pending' ? T.dash : ph.done + '/' + ph.total);
       setAttr(p.head, 'aria-expanded', String(open));
       setAttr(p.head, 'aria-label', name + (ph.state === 'pending' ? '' : ', ' + ph.done + ' ' + T.of + ' ' + ph.total + ' ' + T.phaseDone + (ph.failed ? ', ' + ph.failed + ' ' + T.failedCount : '')));
-      while (p.dots.children.length < ph.agents.length) p.dots.append(h('span', 'dot'));
-      while (p.dots.children.length > ph.agents.length) p.dots.lastChild.remove();
-      ph.agents.forEach((a, i) => setAttr(p.dots.children[i], 'data-s', dotState(a)));
+      const dotStates = phaseDotStates(ph);
+      while (p.dots.children.length < dotStates.length) p.dots.append(h('span', 'dot'));
+      while (p.dots.children.length > dotStates.length) p.dots.lastChild.remove();
+      dotStates.forEach((s, i) => setAttr(p.dots.children[i], 'data-s', s));
       setHidden(p.body, !open);
       if (!open) return; // collapsed rows are brought up to date when the phase is opened (re-render on toggle)
       const keys = uniqueKeys(ph.agents.map((a) => a.id));
@@ -904,7 +908,7 @@
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
       T, QUIET_SEC, fmtTokens, fmtDur, prettyModel, modelLabel, plural, clip, computeSkew, elapsedMs, elapsedText,
-      failureText, activityText, dotState, pillForAgent, pillForRun, runQuietSec, stateChip, etaView, phaseSummary,
+      failureText, activityText, dotState, phaseDotStates, pillForAgent, pillForRun, runQuietSec, stateChip, etaView, phaseSummary,
       phaseDefaultOpen, phaseNote, wfStatText, agentStatText, sessionText, uniqueKeys, lisIndices, planReconcile,
       normalizeState, normalizeUi, isOpen, setOpen, collectIds, pruneUi,
       USAGE_STALE_MS, normalizeUsage, usageLabel, fmtUntil, fmtClock, usageRowView, usageAge,

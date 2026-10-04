@@ -1,0 +1,209 @@
+{
+ "v": 1,
+ "now": 1791028800000,
+ "scope": "workspace",
+ "scopeLabel": "Arbeitsbereich: agent-view",
+ "claudeHome": "C:\\Users\\user\\.claude",
+ "running": [
+  {
+   "kind": "workflow",
+   "key": "e5ce9d45:wf_5281790c-ce8",
+   "runId": "wf_5281790c-ce8",
+   "sessionId": "e5ce9d45-addc-4585-9608-4c76c0596a7b",
+   "sessionTitle": "coding-92",
+   "origin": "VS Code",
+   "name": "agent-rail-research",
+   "description": "Parallele Recherche der Schnittstellen-Fakten, die für eine Live-Anzeige der Agenten als Karten nötig sind. Vier Leser prüfen je ein Gebiet, danach vergleicht ein Kritiker die Berichte.",
+   "status": "running",
+   "startedAt": 1791028248000,
+   "endedAt": null,
+   "durationMs": null,
+   "agentsTotal": 4,
+   "agentsDone": 2,
+   "agentsFailed": 0,
+   "tokens": 665500,
+   "toolUses": 145,
+   "phases": [
+    {
+     "title": "Research",
+     "detail": "Fakten zur Plugin-API sammeln",
+     "state": "running",
+     "done": 2,
+     "failed": 0,
+     "total": 4,
+     "agents": [
+      {
+       "id": "a0244f3c9d2",
+       "label": "research:usage",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 241600,
+       "toolUses": 61,
+       "startedAt": 1791028248000,
+       "endedAt": 1791028730000,
+       "durationMs": 482000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0245f3c9d2",
+       "label": "research:lifecycle",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "done",
+       "quietSec": 0,
+       "tokens": 233900,
+       "toolUses": 58,
+       "startedAt": 1791028250000,
+       "endedAt": 1791028710000,
+       "durationMs": 460000,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": null,
+       "failure": null,
+       "resultPreview": null,
+       "eta": null
+      },
+      {
+       "id": "a0246f3c9d2",
+       "label": "research:pane",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "running",
+       "quietSec": 3,
+       "tokens": 102400,
+       "toolUses": 17,
+       "startedAt": 1791028250000,
+       "endedAt": null,
+       "durationMs": null,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": {
+        "kind": "tool",
+        "tool": "Read",
+        "target": "src/extension.ts",
+        "running": true,
+        "parallel": 3
+       },
+       "failure": null,
+       "resultPreview": null,
+       "eta": {
+        "kind": "number",
+        "basis": "siblings",
+        "lo": 200,
+        "mid": 240,
+        "hi": 280,
+        "text": "~4 Min.",
+        "tip": "Basis: 3 fertige Geschwister (grob, getestet an 73 Läufen)"
+       }
+      },
+      {
+       "id": "a0247f3c9d2",
+       "label": "research:state",
+       "phase": "Research",
+       "kind": "wf",
+       "agentType": null,
+       "shape": null,
+       "model": {
+        "id": "claude-sonnet-5-5",
+        "label": "Sonnet 5.5"
+       },
+       "state": "running",
+       "quietSec": 3,
+       "tokens": 87600,
+       "toolUses": 9,
+       "startedAt": 1791028251000,
+       "endedAt": null,
+       "durationMs": null,
+       "attempt": 1,
+       "cached": false,
+       "loading": false,
+       "activity": {
+        "kind": "writing",
+        "running": true
+       },
+       "failure": null,
+       "resultPreview": null,
+       "eta": {
+        "kind": "range",
+        "basis": "siblings",
+        "lo": 120,
+        "mid": 300,
+        "hi": 480,
+        "text": "2–8 Min.",
+        "tip": "Grobe Schätzung, die Spanne ist bewusst breit. Basis: 2 fertige Geschwister (gleiche Phase, gleicher Lauf)."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Critic",
+     "detail": null,
+     "state": "pending",
+     "done": 0,
+     "failed": 0,
+     "total": 0,
+     "agents": []
+    }
+   ],
+   "eta": {
+    "kind": "range",
+    "basis": "siblings",
+    "lo": 180,
+    "mid": 360,
+    "hi": 540,
+    "text": "Rest grob: 3–9 Min.",
+    "tip": "Grobe Schätzung. Basis: restliche Zeit der aktuellen Phase plus 1 weitere Phase in typischer Länge."
+   }
+  }
+ ],
+ "recent": [],
+ "warnings": [],
+ "formatNote": null,
+ "usage": {
+  "fetchedAt": 1791028080000,
+  "windows": [
+   {
+    "id": "five_hour",
+    "label": "5-Stunden-Limit",
+    "percent": 68,
+    "resetsAt": 1791035580000,
+    "severity": "warning"
+   },
+   {
+    "id": "weekly",
+    "label": "Wochenlimit",
+    "percent": 27,
+    "resetsAt": 1791561600000,
+    "severity": "normal"
+   }
+  ]
+ }
+}

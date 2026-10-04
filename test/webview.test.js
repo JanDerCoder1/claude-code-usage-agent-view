@@ -332,6 +332,37 @@ test('phase summary, default expansion and dot states', () => {
   assert.equal(W.dotState(null), 'pending');
 });
 
+test('phase header dots: one per started agent, one hollow "not yet run" dot for a phase without agents', () => {
+  assert.deepEqual(W.phaseDotStates({ agents: [{ state: 'done' }, { state: 'running' }, { state: 'failed' }] }), ['done', 'running', 'failed']);
+  assert.deepEqual(W.phaseDotStates({ agents: [] }), ['pending']);
+  assert.deepEqual(W.phaseDotStates({}), ['pending']);
+  assert.deepEqual(W.phaseDotStates(null), ['pending']);
+  assert.match(JS, /dotStates\.forEach\(\(s, i\) => setAttr\(p\.dots\.children\[i\], 'data-s', s\)\)/);
+});
+
+test('status dots: done = filled grey, running = filled blue, not yet run = hollow blue, identical in the rows and in the phase header', () => {
+  const rule = (sel) => {
+    const m = CSS.match(new RegExp(sel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*\\{([^}]*)\\}'));
+    assert.ok(m, 'CSS rule ' + sel);
+    return m[1];
+  };
+  const done = rule('.dot[data-s="done"]');
+  assert.match(done, /border-color:\s*var\(--av-muted\)/);
+  assert.match(done, /background-color:\s*var\(--av-muted\)/);
+  const run = rule('.dot[data-s="running"], .dot[data-s="waiting"]');
+  assert.match(run, /border-color:\s*var\(--av-accent\)/);
+  assert.match(run, /background-color:\s*var\(--av-accent\)/);
+  const pending = rule('.dot[data-s="pending"]');
+  assert.match(pending, /border-color:\s*var\(--av-accent\)/);
+  assert.ok(!/background|dotted|opacity/.test(pending), 'hollow, solid and fully opaque');
+  assert.match(rule('.dot[data-s="failed"]'), /background-color:\s*var\(--av-err\)/);
+  assert.ok(!/\.dots\s+\.dot\[/.test(CSS), 'the phase header uses the same colours as the rows');
+  assert.match(rule('.dot'), /background-clip:\s*padding-box/, 'a translucent theme colour does not double up under the border');
+  assert.ok(!/--av-ok|charts-green/.test(CSS), 'no green for finished work');
+  assert.match(CSS, /\.pill-ok\s*\{\s*--c:\s*var\(--av-muted\)/);
+  assert.match(CSS, /\.pill-mute::before\s*\{[^}]*background:\s*transparent/);
+});
+
 test('stat lines: plural, running fraction, cached agents', () => {
   const wf = (o) => Object.assign({ status: 'completed', agentsTotal: 4, agentsDone: 4, tokens: 380234, toolUses: 52 }, o);
   assert.equal(W.wfStatText(wf()), '4 Agenten · 380.2k Tokens · 52 Tools');

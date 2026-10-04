@@ -276,11 +276,30 @@ function manyCards() {
   return state({ running, recent, scope: 'all', scopeLabel: 'Alle Projekte' });
 }
 
+// ---- readme: the picture in README.md (one run with finished, running and not yet started parts) ---------------------------
+function readmeView() {
+  const w = workflow({
+    runId: 'wf_5281790c-ce8', name: 'agent-rail-research',
+    description: 'Parallele Recherche der Schnittstellen-Fakten, die für eine Live-Anzeige der Agenten als Karten nötig sind. Vier Leser prüfen je ein Gebiet, danach vergleicht ein Kritiker die Berichte.',
+    status: 'running', startedAt: NOW - (9 * MIN + 12 * SEC),
+    eta: eta('range', 'Rest grob: 3–9 Min.', 'Grobe Schätzung. Basis: restliche Zeit der aktuellen Phase plus 1 weitere Phase in typischer Länge.', 'siblings', 180, 360, 540),
+  }, [
+    phase('Research', 'Fakten zur Plugin-API sammeln', [
+      done('research:usage', 'Research', 8 * MIN + 2 * SEC, 70 * SEC, 241600, 61),
+      done('research:lifecycle', 'Research', 7 * MIN + 40 * SEC, 90 * SEC, 233900, 58),
+      live('research:pane', 'Research', 9 * MIN + 10 * SEC, 102400, 17, { kind: 'tool', tool: 'Read', target: 'src/extension.ts', running: true, parallel: 3 }, ETA.number),
+      live('research:state', 'Research', 9 * MIN + 9 * SEC, 87600, 9, { kind: 'writing', running: true }, ETA.range),
+    ]),
+    phase('Critic', null, []),
+  ]);
+  return state({ running: [w], usage: usage() });
+}
+
 // ---- empty ------------------------------------------------------------------------------------------------------
 const empty = () => state({});
 
 const FIXTURES = {
-  'wf-running': wfRunning, 'usage-states': usageStates, 'wf-done': wfDone, 'wf-killed': wfKilled, 'task-agents': taskAgents, 'failed-429': failed429, 'many-cards': manyCards, empty,
+  'wf-running': wfRunning, 'usage-states': usageStates, 'wf-done': wfDone, 'wf-killed': wfKilled, 'task-agents': taskAgents, 'failed-429': failed429, 'many-cards': manyCards, readme: readmeView, empty,
 };
 
 fs.mkdirSync(OUT, { recursive: true });

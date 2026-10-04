@@ -8,7 +8,7 @@ VS-Code-Erweiterung für Claude Code: laufende Agenten und Workflows als Karten,
 
 ## Was es kann
 
-- **Agenten-Karten:** Status, Modell, Tokens, Laufzeit, Phasen, aktuelle Tätigkeit und eine grobe Restzeit je Workflow und Agent.
+- **Agenten-Karten:** Status, Modell, Tokens, Laufzeit, Phasen, aktuelle Tätigkeit und eine grobe Restzeit je Workflow und Agent. Die Punkte zeigen den Zustand: grau = fertig, blau = läuft, leerer blauer Kreis = noch nicht gelaufen.
 - **Nutzung:** 5-Stunden- und Wochenlimit in zwei Zeilen: Prozent, Reset-Zeit und Restzeit. Die Erweiterung führt dafür selbst `/usage` aus.
 - **Kleines Fenster:** dieselben Karten in einem eigenen Windows-Fenster, das vor VS Code liegt und mit VS Code schließt.
 - **Hand-Off:** schreibt den Kontext einer Sitzung in eine Markdown-Datei. Dazu der Befehl `/handoff`, bei dem Claude die Übergabe selbst schreibt.
@@ -21,7 +21,7 @@ Voraussetzungen: VS Code 1.94 oder neuer und die Claude-Code-Erweiterung. Das kl
 **Fertiges Paket:** die Datei `claude-code-usage-agent-view-<Version>.vsix` aus den [Releases](https://github.com/JanDerCoder1/claude-code-usage-agent-view/releases) laden und installieren:
 
 ```powershell
-code --install-extension claude-code-usage-agent-view-0.9.3.vsix
+code --install-extension claude-code-usage-agent-view-0.9.4.vsix
 ```
 
 **Selbst bauen** (Node.js 14 oder neuer), die vier Befehle nacheinander:
@@ -35,11 +35,11 @@ cd claude-code-usage-agent-view
 ```
 
 ```powershell
-node tools/build-vsix.js . dist/claude-code-usage-agent-view-0.9.3.vsix
+node tools/build-vsix.js . dist/claude-code-usage-agent-view-0.9.4.vsix
 ```
 
 ```powershell
-code --install-extension dist/claude-code-usage-agent-view-0.9.3.vsix
+code --install-extension dist/claude-code-usage-agent-view-0.9.4.vsix
 ```
 
 Danach VS Code neu starten. Das Symbol **Claude Code Utilities** erscheint in der Aktivitätsleiste.

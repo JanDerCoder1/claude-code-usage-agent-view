@@ -11,8 +11,9 @@ Claude Code selbst bietet keine Schnittstelle, um Karten in seinen Chat einzubau
 - **Läuft**: jeder laufende Workflow als Karte mit Phasen (aufklappbar), den Agenten je Phase (Modell, Tokens, Zeit, Rest) und der aktuellen Tätigkeit (Werkzeug, Denken, Schreiben, Warten). Laufende Agenten ohne Workflow (Agent-Werkzeug) erscheinen als eigene Karte.
 - **Zuletzt fertig**: abgeschlossene, abgebrochene und fehlgeschlagene Läufe der letzten Stunden, einzeilig, per Klick aufklappbar.
 - **Status**: `läuft`, `fertig`, `Fehler`, `abgebrochen`, `gestoppt` (verwaist), `wartet` und `ruhig seit N Min.` (Hinweis, kein Beweis für einen Abbruch).
+- **Punkte** vor den Agenten, im Kopf jeder Phase und in der Status-Pille haben überall dieselbe Bedeutung: **grau ausgefüllt** = fertig, **blau ausgefüllt** = läuft (pulsiert, solange der Agent arbeitet), **blauer leerer Kreis** = noch nicht gelaufen, **rot** = fehlgeschlagen, **grauer leerer Kreis** = abgebrochen oder gestoppt. Einen leeren blauen Kreis bekommt eine Phase, in der noch kein Agent gestartet ist; wie viele Agenten eine Phase insgesamt bekommt, steht nirgends in den Dateien von Claude Code, deshalb gibt es keine Platzhalter für einzelne noch nicht gestartete Agenten.
 - **Nutzung**: 5-Stunden-Limit und Wochenlimit mit verbrauchten Prozent, Reset-Zeitpunkt und Restzeit bis zum Reset. Die Zahlen stammen aus dem Zwischenspeicher, den Claude Code selbst pflegt. Damit sie frisch sind, führt Claude Code Utilities selbst den Claude-Code-Befehl `/usage` aus: beim Öffnen der Ansicht, danach alle 5 Minuten, solange sie sichtbar ist (`agentView.usage.autoRefreshMinutes`), und sofort über den Aktualisieren-Knopf. Während das läuft, steht "wird aktualisiert …" neben den Zahlen; sonst nennt die Ansicht das Alter ("Stand vor 12 Min."). Ist die Reset-Zeit eines Fensters schon vorbei, steht dort "zurückgesetzt" statt einer veralteten Zahl.
-- **Beschreibung**: Die Beschreibung eines Workflows steht ungekürzt direkt unter dem Titel; auch lange Tätigkeitszeilen laufen über mehrere Zeilen, und der Tooltip zeigt jeweils den ganzen Text.
+- **Beschreibung**: Die Beschreibung eines Workflows steht ungekürzt direkt unter dem Titel; die Tätigkeit eines laufenden Agenten bleibt immer in einer Zeile (lange Texte enden mit „…“), der Tooltip zeigt den ganzen Text.
 - **Schwebendes Fenster**: der Knopf in der Titelleiste der Ansicht (zwei Fenster-Symbole) und in der Kopfzeile öffnet dieselben Karten samt Nutzung in einem eigenen kleinen Windows-Fenster ohne VS-Code-Rahmen, das du frei verschieben kannst und das vor VS Code im Vordergrund bleibt (nicht vor anderen Programmen).
 - **Hand-Off** (Knopf in der Ansicht und Symbol in der Titelleiste): schreibt einen Auszug der gewählten Sitzung in eine Markdown-Datei im Temp-Ordner (`%TEMP%\agent-view-handoff`), danach kannst du die Datei öffnen oder einen fertigen Prompt für die neue Sitzung kopieren. Es ist ein **mechanischer Auszug, keine Zusammenfassung durch Claude**: letzte Fragen, letzter Stand, offene Aufgabenliste, bearbeitete Dateien, letzte Befehle, Verlauf deiner Aufträge. Gibt es mehrere Sitzungen im Arbeitsbereich, wählst du eine aus (die zuletzt aktive steht oben).
 - **Clear** (Knopf in der Ansicht und Symbol in der Titelleiste): schreibt zuerst ein Hand-Off (ohne Hand-Off wird nichts gelöscht), öffnet dann über "Claude Code: Open in New Tab" eine neue Unterhaltung, in deren Eingabefeld der Prompt mit dem Pfad der Hand-Off-Datei schon steht (zusätzlich in der Zwischenablage), und schließt den alten Chat-Tab. Liegt der alte Chat in der Seitenleiste statt in einem Editor-Tab, bleibt er bestehen, da er sich nicht schließen lässt. Schlägt das Öffnen fehl, wird "New Conversation" benutzt. Die alte Unterhaltung bleibt in deren Verlauf erhalten. Das spart Tokens, weil der alte Kontext nicht mehr mitgeschickt wird. Für das Übernehmen von Wissen zuerst Hand-Off, dann Clear.
@@ -29,22 +30,22 @@ Claude Code selbst bietet keine Schnittstelle, um Karten in seinen Chat einzubau
 Die vier Befehle nacheinander im Hauptordner des Projekts ausführen, jeweils einzeln kopieren. Reihenfolge: bauen, Inhalt prüfen (erwartet: 0 CRC-Fehler und keine Namen mit Backslash), installieren, Installation prüfen.
 
 ```powershell
-node tools/build-vsix.js . dist/claude-code-usage-agent-view-0.9.3.vsix
+node tools/build-vsix.js . dist/claude-code-usage-agent-view-0.9.4.vsix
 ```
 
 ```powershell
-node tools/zip-list.js dist/claude-code-usage-agent-view-0.9.3.vsix
+node tools/zip-list.js dist/claude-code-usage-agent-view-0.9.4.vsix
 ```
 
 ```powershell
-code --install-extension dist/claude-code-usage-agent-view-0.9.3.vsix
+code --install-extension dist/claude-code-usage-agent-view-0.9.4.vsix
 ```
 
 ```powershell
 code --list-extensions --show-versions
 ```
 
-Die letzte Ausgabe der Liste sollte `local.claude-code-usage-agent-view@0.9.3` enthalten (die CLI gibt dabei eine harmlose DEP0169-Warnung aus). Danach in VS Code die Befehlspalette öffnen (Strg+Umschalt+P) und `Developer: Reload Window` ausführen. In der Aktivitätsleiste erscheint das Symbol "Claude Code Utilities", die Ansicht heißt "Agenten".
+Die letzte Ausgabe der Liste sollte `local.claude-code-usage-agent-view@0.9.4` enthalten (die CLI gibt dabei eine harmlose DEP0169-Warnung aus). Danach in VS Code die Befehlspalette öffnen (Strg+Umschalt+P) und `Developer: Reload Window` ausführen. In der Aktivitätsleiste erscheint das Symbol "Claude Code Utilities", die Ansicht heißt "Agenten".
 
 Gleiche Version erneut installieren ersetzt die vorhandene. Ein lokales Paket wird nicht automatisch aktualisiert: nach jeder Änderung `version` in `package.json` erhöhen, neu bauen und installieren (die README und die Tests verweisen auf den Dateinamen `claude-code-usage-agent-view-<Version>.vsix`).
 
@@ -69,7 +70,7 @@ Die sekundäre Seitenleiste lässt sich mit `View: Toggle Secondary Side Bar Vis
 Optional gibt es eine Paketvariante, die den Container von Anfang an in der sekundären Seitenleiste deklariert (benötigt VS Code ab 1.106; Bauen und Installieren sind geprüft, die Darstellung in einem echten Fenster noch nicht):
 
 ```powershell
-node tools/build-vsix.js . dist/claude-code-usage-agent-view-0.9.3-secondary.vsix --secondary
+node tools/build-vsix.js . dist/claude-code-usage-agent-view-0.9.4-secondary.vsix --secondary
 ```
 
 ## Befehle
