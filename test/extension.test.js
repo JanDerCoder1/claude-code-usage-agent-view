@@ -647,7 +647,7 @@ test('end to end with the real Poller: first state arrives, ready triggers a fre
 });
 
 test('with the genuine lib modules and a synthetic claudeHome: real model + real poller deliver a valid state, scope switch works, history is saved', async (t) => {
-  const e = boot(t, { realLibs: true, config: { scope: 'all', recentHours: 48 } });
+  const e = boot(t, { realLibs: true, config: { scope: 'all', recentHours: 24 * 3650 } });
   const sid = '11111111-2222-4333-8444-555555555555';
   const dir = path.join(e.home, 'projects', 'c--tmp-ws', sid, 'subagents');
   fs.mkdirSync(dir, { recursive: true });
